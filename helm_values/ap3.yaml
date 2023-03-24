@@ -1,0 +1,76 @@
+global:
+  name: consul
+  enabled: false
+  image: hashicorp/consul-enterprise:1.15.1-ent
+  imageEnvoy: "envoyproxy/envoy-alpine:v1.25.1"
+  imageConsulDataplane: "hashicorp/consul-dataplane:1.1.0"
+  logLevel: "debug"
+  enterpriseLicense:
+    secretName: consul-ent-license
+    secretKey: key
+ 
+  adminPartitions:
+    enabled: true
+    name: tenant-3
+
+  enableConsulNamespaces: true
+
+  tls:
+    enabled: true
+    caCert:
+      secretName: consul-ca-cert 
+      secretKey: tls.crt
+    caKey:
+      secretName: consul-ca-key 
+      secretKey: tls.key
+
+  acls:
+    manageSystemACLs: true
+    bootstrapToken:
+      secretName: consul-partitions-acl-token 
+      secretKey: token
+
+# client:
+#  enabled: false
+#  grpc: true
+
+externalServers:
+  enabled: true
+  hosts: [aac73e69dc2f1463d8e25aa6654bdefe-1921609846.eu-west-2.elb.amazonaws.com]
+  tlsServerName: server.dc2.consul
+  k8sAuthMethodHost: https://13F38DEA26E87E1AFA2619763A473343.gr7.eu-west-2.eks.amazonaws.com
+  
+controller: 
+  enabled: true
+
+connectInject:
+  enabled: true
+  default: true                
+  transparentProxy:
+    defaultEnabled: true         # Default
+    logLevel: "debug"
+# envoyExtraArgs: "--log-level debug"
+  metrics:
+    defaultEnabled: true
+    defaultEnableMerging: true
+
+ingressGateways:
+  enabled: true
+  gateways:
+    - name: ingress-gateway
+      service:
+        type: 'LoadBalancer'
+  wanAddress:
+    source: Service
+#       annotations: |
+#         'service.beta.kubernetes.io/aws-load-balancer-internal': "false"
+
+
+meshGateway:
+  enabled: true
+  replicas: 1
+# service:
+#   enabled: true
+#   type: 'LoadBalancer'
+# wanAddress:
+#   source: Service
