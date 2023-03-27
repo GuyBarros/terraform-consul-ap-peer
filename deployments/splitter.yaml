@@ -1,7 +1,7 @@
 apiVersion: consul.hashicorp.com/v1alpha1         
 kind: ServiceSplitter                             
 metadata:                                         
-  name: canary-splitter                         
+  name: service-a                         
   namespace: default                                 
 spec:
   splits:                                         
