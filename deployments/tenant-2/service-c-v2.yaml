@@ -54,13 +54,13 @@ spec:
       automountServiceAccountToken: true
       containers:
         - name: service-c-v2
-          image: nicholasjackson/fake-service:v0.23.1
+          image: nicholasjackson/fake-service:v0.25.1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9090
           env:
             - name: "NAME"
-              value: "service-c-v2 V1"
+              value: "service-c-v2 V2"
             - name: "LISTEN_ADDR"
               value: "0.0.0.0:9090"
             - name: "TIMING_50_PERCENTILE"

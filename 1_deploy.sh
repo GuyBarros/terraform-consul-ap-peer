@@ -74,3 +74,7 @@ kubectl apply -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/ap1default.yaml 
 
 kubectl apply -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/proxydefaults.yaml --context $ap1
 kubectl apply -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/proxydefaults.yaml --context $ap2
+
+
+#Ingress Gateway to Service-A
+kubectl apply -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/tenant-1/igw.yaml --context $ap1 

@@ -46,7 +46,7 @@ spec:
       serviceAccountName: service-b
       containers:
       - name: service-b
-        image: nicholasjackson/fake-service:v0.22.4
+        image: nicholasjackson/fake-service:v0.25.1
         ports:
         - containerPort: 9090
         env:

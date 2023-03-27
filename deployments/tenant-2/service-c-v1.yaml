@@ -54,7 +54,7 @@ spec:
       automountServiceAccountToken: true
       containers:
         - name: service-c-v1
-          image: nicholasjackson/fake-service:v0.23.1
+          image: nicholasjackson/fake-service:v0.25.1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9090
