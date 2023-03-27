@@ -4,7 +4,7 @@
   metadata:
     name: hcp-vault
   spec:
-    protocol: http
+    protocol: tcp
     destination:
       addresses:
         - "do-not-delete-ever-v2-public-vault-cf6a1d76.5773df81.z1.hashicorp.cloud"
@@ -18,5 +18,17 @@ metadata:
 spec:
   services:
     - name: hcp-vault
-      #caFile: "/etc/ssl/certs/ca-certificates.crt"
+      caFile: "/etc/ssl/certs/ca-certificates.crt"
       #sni: "do-not-delete-ever-v2-public-vault-cf6a1d76.5773df81.z1.hashicorp.cloud"
+
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: hcp-vault
+spec:
+  destination:
+    name: hcp-vault
+  sources:
+    - name: frontend
+      action: allow
