@@ -1,0 +1,33 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceRouter
+metadata:
+  name: service-b-v1
+  namespace: default
+spec:
+  routes:
+    - match:
+        http:
+          header:
+            - name: x-canary
+              exact: 'true'
+      destination:
+        service: service-c-v2
+        namespace: default
+        partition: tenant-2
+# ---
+# apiVersion: consul.hashicorp.com/v1alpha1
+# kind: ServiceRouter
+# metadata:
+#   name: service-b-v2
+#   namespace: default
+# spec:
+#   routes:
+#     - match:
+#         http:
+#           header:
+#             - name: x-canary
+#               exact: 'true'
+#       destination:
+#         service: service-c-v2
+#         namespace: default
+#         partition: tenant-2
