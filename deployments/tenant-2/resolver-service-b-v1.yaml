@@ -1,0 +1,11 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceResolver
+metadata:
+  name: service-b-v1
+spec:
+  connectTimeout: 15s
+  failover:
+    '*':
+      # datacenters: ['dc3', 'dc4']
+      targets:
+          - peer: dc2-default
