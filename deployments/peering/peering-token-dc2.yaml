@@ -5,6 +5,6 @@ kind: Secret
 metadata:
   labels:
     consul.hashicorp.com/peering-token: "true"
-  name: peering-token-dc2
+  name: "peering-token-dc2-tenant-3"
   namespace: default
 type: Opaque
