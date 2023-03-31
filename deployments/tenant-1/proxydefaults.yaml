@@ -3,6 +3,8 @@ kind: ProxyDefaults
 metadata:
   name: global
 spec:
+  accessLogs:
+    enabled: true
   meshGateway:
     mode: local
   config:

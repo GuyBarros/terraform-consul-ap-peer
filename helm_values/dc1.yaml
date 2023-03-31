@@ -40,6 +40,7 @@ server:
     enabled: true
     enableAgentMetrics: true
     agentMetricsRetentionTime: '1m'
+    enableGatewayMetrics: true
 
 connectInject:
   enabled: true
@@ -52,7 +53,11 @@ connectInject:
 #   mirroringK8SPrefix: ""
   metrics:
     defaultEnabled: true
-    defaultEnableMerging: false  
+    defaultEnableMerging: false
+    defaultPrometheusScrapePort: 20200
+    defaultPrometheusScrapePath: "/metrics"
+    defaultMergedMetricsPort: 20100  
+
 
 ingressGateways:
   enabled: true
@@ -67,8 +72,7 @@ ingressGateways:
     source: Service
 #       annotations: |
 #         'service.beta.kubernetes.io/aws-load-balancer-internal': "false"
-terminatingGateways:
-  enabled: true
+
 meshGateway:
   enabled: true
   replicas: 1
@@ -79,7 +83,9 @@ meshGateway:
 #   source: Service
 #       annotations: |
 #         'service.beta.kubernetes.io/aws-load-balancer-internal': "false"
-
+terminatingGateways:
+  enabled: true
+  
 metrics:
   enabled: true
   provider: "prometheus"
@@ -89,6 +95,10 @@ controller:
   enabled: true
 
 ui:
+  metrics:
+    enabled: true
+    provider: "prometheus"
+    baseURL: http://prometheus-server
   enabled: true
   service:
     enabled: true
