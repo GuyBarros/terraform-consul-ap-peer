@@ -3,7 +3,7 @@ global:
   name: consul
   apiVersion: v2
   datacenter: dc1
-  image: hashicorp/consul-enterprise:1.15.1-ent
+  image: hashicorp/consul-enterprise:1.15.2-ent
   imageEnvoy: "envoyproxy/envoy-alpine:v1.25.1"
   imageConsulDataplane: "hashicorp/consul-dataplane:1.1.0"
   logLevel: "debug"
@@ -85,6 +85,15 @@ meshGateway:
 #         'service.beta.kubernetes.io/aws-load-balancer-internal': "false"
 terminatingGateways:
   enabled: true
+  gateways:
+    - name: terminating-gateway
+      extraVolumes:
+      - type: secret
+        name: my-secret
+        items: # optional items array
+          - key: key
+            path: rds-combined-ca-bundle.pem # secret will now mount to /consul/userconfig/my-secret/path
+
   
 metrics:
   enabled: true

@@ -78,3 +78,12 @@ kubectl apply -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/proxydefaults.ya
 
 #Ingress Gateway to Service-A
 kubectl apply -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/tenant-1/igw.yaml --context $ap1 
+
+
+export CONSUL_HTTP_TOKEN=bfe0e4bf-4855-5621-fde2-dc4880025f5f
+export CONSUL_HTTP_ADDR=https://a9ccba32d672a4a6a822906e6666e67d-648558321.eu-west-2.elb.amazonaws.com
+curl --request PUT --header "X-Consul-Token: $CONSUL_HTTP_TOKEN" --data @docdb.json --insecure $CONSUL_HTTP_ADDR/v1/catalog/register
+
+kubectl create secret generic documentdb-tls -n consul  --from-file=caFile=/Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/default_test/rds-combined-ca-bundle.pem
+
+kubectl create secret generic my-secret -n consul  --from-file=key=/Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/default_test/rds-combined-ca-bundle.pem

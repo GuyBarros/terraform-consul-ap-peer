@@ -2,13 +2,13 @@
   apiVersion: consul.hashicorp.com/v1alpha1
   kind: ServiceDefaults
   metadata:
-    name: hcp-vault
+    name: documentdb
   spec:
     protocol: tcp
     destination:
       addresses:
-        - "do-not-delete-ever-v2-public-vault-cf6a1d76.5773df81.z1.hashicorp.cloud"
-      port: 8200
+        - "docdb-test.cluster-ck4qnrbriwav.eu-west-1.docdb.amazonaws.com"
+      port: 27017
 
 ---
 apiVersion: consul.hashicorp.com/v1alpha1
@@ -17,18 +17,18 @@ metadata:
   name: terminating-gateway
 spec:
   services:
-    - name: hcp-vault
+    - name: documentdb
       caFile: "/etc/ssl/certs/ca-certificates.crt"
-      #sni: "do-not-delete-ever-v2-public-vault-cf6a1d76.5773df81.z1.hashicorp.cloud"
+      #sni: "docdb-test.cluster-ck4qnrbriwav.eu-west-1.docdb.amazonaws.com"
 
 ---
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceIntentions
 metadata:
-  name: hcp-vault
+  name: documentdb
 spec:
   destination:
-    name: hcp-vault
+    name: documentdb
   sources:
     - name: frontend
       action: allow

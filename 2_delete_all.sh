@@ -22,3 +22,6 @@ kubectl delete -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/tenant-2/servic
 
 #Add intention
 kubectl delete -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/tenant-2/sevc2sevb.yaml --context $ap2 
+
+kubectl delete -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/default_test/ --context $dc1 
+helm delete consul hashicorp/consul --namespace consul --wait --debug --kube-context $dc1
