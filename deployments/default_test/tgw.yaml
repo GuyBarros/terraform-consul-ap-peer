@@ -6,7 +6,7 @@ spec:
   services:
     - name: example-docdb
       sni: 'example-docdb-cluster.cluster-cwwnbexip9py.eu-west-2.docdb.amazonaws.com'
-      caFile: /consul/userconfig/documentdb-tls/documentdb-ca.pem
+      caFile: /consul/userconfig/my-secret/rds-combined-ca-bundle.pem
 ---
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceIntentions
