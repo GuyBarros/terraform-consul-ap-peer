@@ -1,0 +1,20 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: TerminatingGateway
+metadata:
+  name: terminating-gateway
+spec:
+  services:
+    - name: example-docdb
+      sni: 'example-docdb-cluster.cluster-cwwnbexip9py.eu-west-2.docdb.amazonaws.com'
+      caFile: /consul/userconfig/documentdb-tls/documentdb-ca.pem
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: example-docdb
+spec:
+  destination:
+    name: example-docdb
+  sources:
+    - name: chatapp
+      action: allow
