@@ -46,7 +46,7 @@ spec:
       serviceAccountName: chatapp
       containers:
       - name: chatapp
-        image: guybarros/chat-app:latest
+        image: lhaig/anon-app:dark-0.03
         ports:
         - containerPort: 5000
         env:
