@@ -1,11 +1,11 @@
-# Service to expose service-b
+# Service to expose service-a
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-b
+  name: service-a
 spec:
   selector:
-    app: service-b
+    app: service-a
   type: LoadBalancer
   ports:
   - name: http
@@ -16,36 +16,36 @@ spec:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: service-b
+  name: service-a
 ---
-# service-b
+# service-a
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: service-b
+  name: service-a
   labels:
-    app: service-b
+    app: service-a
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: service-b
+      app: service-a
   template:
     metadata:
       labels:
-        app: service-b
+        app: service-a
       annotations:
         "consul.hashicorp.com/connect-inject": "true"
         "consul.hashicorp.com/transparent-proxy": "false"
 #       "consul.hashicorp.com/connect-service-upstreams": "service-c:9091"
-        "consul.hashicorp.com/connect-service-upstreams": "service-c.default.tenant-2:9091"
+        "consul.hashicorp.com/connect-service-upstreams": "service-b-v1.default.tenant-2:9091"
          #For the upstream line, this points to the #"<servicename>.<consul-namespace>.<partitionname>:<port#>" of the upstream service.
          #If its in the same partition and namespace, it can be omitted, ex:
 #        "consul.hashicorp.com/connect-service-upstreams": "service-c:9091"
     spec:
-      serviceAccountName: service-b
+      serviceAccountName: service-a
       containers:
-      - name: service-b
+      - name: service-a
         image: nicholasjackson/fake-service:v0.25.1
         ports:
         - containerPort: 9090
@@ -58,7 +58,7 @@ spec:
 #          value: "http://service-c.virtual.default.ns.tenant-1.ap.dc1.dc.consul:9091"
           #Set value above if TProxy is on: <service>.virtual.<namespace>.ns.<partition>.ap.<datacenter>.dc.<domain>                   
         - name: "NAME"
-          value: "service-b"
+          value: "service-a on default"
         - name: "MESSAGE"
           value: "Hello World"
         - name: "HTTP_CLIENT_KEEP_ALIVES"
@@ -67,6 +67,6 @@ spec:
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceDefaults
 metadata:
-  name: service-b
+  name: service-a
 spec:
   protocol: "http"

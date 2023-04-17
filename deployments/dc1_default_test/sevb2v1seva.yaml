@@ -9,7 +9,3 @@ spec:
   sources:
   - name: service-a
     action: allow
-    partition: tenant-1
-  - name: service-a
-    action: allow
-    partition: default

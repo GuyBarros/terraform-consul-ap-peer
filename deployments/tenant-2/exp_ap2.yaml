@@ -1,0 +1,44 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ExportedServices
+metadata:
+  name: tenant-2
+spec:
+  services:
+  - name: mesh-gateway
+    consumers:
+    - partition: tenant-1
+  - name: mesh-gateway
+    consumers:
+    - partition: default  
+  - name: service-b-v1
+    namespace: default
+    consumers:
+    - partition: tenant-1
+  - name: service-b-v2
+    namespace: default
+    consumers:
+    - partition: tenant-1  
+  - name: service-c-v1
+    namespace: default
+    consumers:
+    - partition: tenant-1
+  - name: service-c-v2
+    namespace: default
+    consumers:
+    - partition: tenant-1  
+  - name: service-b-v1
+    namespace: default
+    consumers:
+    - partition: default
+  - name: service-b-v2
+    namespace: default
+    consumers:
+    - partition: default  
+  - name: service-c-v1
+    namespace: default
+    consumers:
+    - partition: default
+  - name: service-c-v2
+    namespace: default
+    consumers:
+    - partition: default  

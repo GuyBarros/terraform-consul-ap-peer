@@ -45,9 +45,9 @@ spec:
       labels:
         app: service-c-v1
         metrics: enabled
-      annotations:
-        consul.hashicorp.com/connect-inject: 'true'
-        consul.hashicorp.com/transparent-proxy: 'false'
+#      annotations:
+#        consul.hashicorp.com/connect-inject: 'true'
+#        consul.hashicorp.com/transparent-proxy: 'false'
         #consul.hashicorp.com/transparent-proxy-overwrite-probes: 'true'
     spec:
       serviceAccountName: service-c-v1
@@ -60,7 +60,7 @@ spec:
             - containerPort: 9090
           env:
             - name: "NAME"
-              value: "service-c-v1 V1"
+              value: "service-c-v1 on tenant-2"
             - name: "LISTEN_ADDR"
               value: "0.0.0.0:9090"
             - name: "TIMING_50_PERCENTILE"

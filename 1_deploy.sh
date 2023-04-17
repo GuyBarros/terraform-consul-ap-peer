@@ -1,39 +1,49 @@
 #apply mesh by peer by default 
-kubectl apply -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/meshgw.yaml --context $dc1
-kubectl apply -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/meshgw.yaml --context $ap1
-kubectl apply -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/meshgw.yaml --context $ap2
+kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/dc1_default_test/meshgw.yaml --context $dc1
+kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/dc2_default/meshgw.yaml --context $dc2
 
 #Deploy proxy defaults
-kubectl apply -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/proxydefaults.yaml --context $dc1
-kubectl apply -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/proxydefaults.yaml --context $ap1
-kubectl apply -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/proxydefaults.yaml --context $ap2
+kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/dc1_default_test/proxydefaults.yaml --context $dc1
+kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/tenant-1/proxydefaults.yaml --context $ap1
+kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/tenant-2/proxydefaults.yaml --context $ap2
+kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/dc2_default/proxydefaults.yaml --context $dc2
 
-# Deploy service-a to tenant-1
-kubectl apply -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/tenant-1/service-a.yaml --context $ap1
+# Deploy service-c to tenant-2
+kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/tenant-2/service-c-v1.yaml --context $ap2
+kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/service-c-v2.yaml --context $ap2
 
-#port forward to service-a
-kubectl port-forward service-a-66db6c75d-n2hds  9090:9090 --address 0.0.0.0 --context $ap1
+#Add intention
+kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/tenant-2/sevc2v1sevb.yaml --context $ap2 
+kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/tenant-2/sevc2v2sevb.yaml --context $ap2 
 
 # Deploy service-b to tenant-2
-kubectl apply -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/tenant-2/service-b-v1.yaml --context $ap2
-kubectl apply -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/tenant-2/service-b-v2.yaml --context $ap2
+kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/tenant-2/service-b-v1.yaml --context $ap2
+kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/tenant-2/service-b-v2.yaml --context $ap2
 
 #Get service-a talking to service-b
-    #Export the services cross tenant.
-kubectl apply -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/tenant-1/expap1.yaml --context $ap1
-kubectl apply -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/tenant-2/expap2.yaml --context $ap2 
+ #Export the services cross tenant.
+
+kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/tenant-2/exp_ap2.yaml --context $ap2
 
 #Add intention
-kubectl apply -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/tenant-2/sevb2seva.yaml --context $ap2 
+kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/tenant-2/sevb2v1seva.yaml --context $ap2 
+kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/tenant-2/sevb2v2seva.yaml --context $ap2 
 
-# Deploy service-b to tenant-2
-kubectl apply -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/tenant-2/service-c-v1.yaml --context $ap2
-kubectl apply -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/tenant-2/service-c-v2.yaml --context $ap2
+# Deploy service-a to tenant-1
+kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/tenant-1/service-a.yaml --context $ap1
 
-#Add intention
-kubectl apply -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/tenant-2/sevc2sevb.yaml --context $ap2 
+kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/tenant-1/exp_ap1.yaml --context $ap1
+
+# Deploy Ingress Gateway
+kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/tenant-1/igw.yaml --context $ap1
 
 
+######################
+#testing without transpernt proxy DELETE ME AFTER
+
+kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/dc1_default_test/igw.yaml --context $dc1
+
+#####################
 
 
 
@@ -80,8 +90,8 @@ kubectl apply -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/proxydefaults.ya
 kubectl apply -f /Users/guybarros/GIT_ROOT/BT_ARCAM/deployments/tenant-1/igw.yaml --context $ap1 
 
 
-export CONSUL_HTTP_TOKEN=bfe0e4bf-4855-5621-fde2-dc4880025f5f
-export CONSUL_HTTP_ADDR=https://a9ccba32d672a4a6a822906e6666e67d-648558321.eu-west-2.elb.amazonaws.com
+export CONSUL_HTTP_TOKEN=4233f441-aef5-0df5-4521-ae925408b81c
+export CONSUL_HTTP_ADDR=https://acca376c9f5214f51ae9e01168661916-2058900592.eu-west-2.elb.amazonaws.com
 curl --request PUT --header "X-Consul-Token: $CONSUL_HTTP_TOKEN" --data @docdb.json --insecure $CONSUL_HTTP_ADDR/v1/catalog/register
 
 kubectl create secret generic documentdb-tls -n consul  --from-file=caFile=/Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/default_test/rds-combined-ca-bundle.pem
