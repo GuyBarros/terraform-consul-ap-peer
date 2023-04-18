@@ -5,7 +5,7 @@ metadata:
 spec:
   services:
     - name: example-docdb
-      sni: 'example-docdb-cluster.cluster-cwwnbexip9py.eu-west-2.docdb.amazonaws.com'
+      sni: 'cluster1-docdb-instance-0.cwwnbexip9py.eu-west-2.docdb.amazonaws.com'
       caFile: /consul/userconfig/documentdb-tls/rds-combined-ca-bundle.pem
 ---
 apiVersion: consul.hashicorp.com/v1alpha1

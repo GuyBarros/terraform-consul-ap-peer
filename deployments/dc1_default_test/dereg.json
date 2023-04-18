@@ -1,0 +1,6 @@
+{
+    "Datacenter": "dc1",
+    "Node": "cluster1-docdb-instance-0.cwwnbexip9py.eu-west-2.docdb.amazonaws.com:27017",
+    "ServiceID": "example-docdb",
+    "Namespace": "default"
+  }

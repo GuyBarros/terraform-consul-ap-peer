@@ -6,5 +6,5 @@
     protocol: tcp
     destination:
       addresses:
-        - "example-docdb-cluster.cluster-cwwnbexip9py.eu-west-2.docdb.amazonaws.com"
+        - "cluster1-docdb-cluster.cluster-cwwnbexip9py.eu-west-2.docdb.amazonaws.com"
       port: 27017
