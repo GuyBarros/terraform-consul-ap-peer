@@ -1,11 +1,11 @@
-# Service to expose chatapp
+# Service to expose test
 apiVersion: v1
 kind: Service
 metadata:
-  name: chatapp
+  name: test
 spec:
   selector:
-    app: chatapp
+    app: test
   type: LoadBalancer
   ports:
   - name: http
@@ -16,57 +16,57 @@ spec:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: chatapp
+  name: test
 ---
-# chatapp
+# test
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: chatapp
+  name: test
   labels:
-    app: chatapp
+    app: test
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: chatapp
+      app: test
   template:
     metadata:
       labels:
-        app: chatapp
+        app: test
 #      annotations:
 #        "consul.hashicorp.com/connect-inject": "true"
 #        "consul.hashicorp.com/transparent-proxy": "false"
 #       "consul.hashicorp.com/connect-service-upstreams": "service-c:9091"
-#        "consul.hashicorp.com/connect-service-upstreams": "example-docdb:27017"
+#        "consul.hashicorp.com/connect-service-upstreams": "service-b-v1:9091"
          #For the upstream line, this points to the #"<servicename>.<consul-namespace>.<partitionname>:<port#>" of the upstream service.
          #If its in the same partition and namespace, it can be omitted, ex:
 #        "consul.hashicorp.com/connect-service-upstreams": "service-c:9091"
     spec:
-      serviceAccountName: chatapp
+      serviceAccountName: test
       containers:
-      - name: chatapp
-        image: lhaig/anon-app:dark-0.03
+      - name: test
+        image: guybarros/chat-app:0.0.6
         ports:
         - containerPort: 5000
         env:
-        - name: "MONGODB_USERNAME"
-          value: "docadmin"
-        - name: "MONGODB_PASSWORD"
-          value: "password"                              
         - name: "MONGODB_SERVER"
           # value: "127.0.0.1"
-          value: "example-docdb.virtual.consul"              
+          value: "cluster1-docdb-instance-0.cwwnbexip9py.eu-west-2.docdb.amazonaws.com"              
         - name: "MONGODB_PORT"
-          # value: "27017"
-          # To connect to the upstream mongodb pointing to local upstream port
           value: "27017"
+          # To connect to the upstream mongodb pointing to local upstream port
+         # value: "9091"
+        - name: "MONGODB_USERNAME"
+          value: "docadmin" 
+        - name: "MONGODB_PASSWORD"
+          value: "password"   
         - name: "MONGODB_COL"
-          value: "chatappapp"
+          value: "testapp"
 ---
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceDefaults
 metadata:
-  name: chatapp
+  name: test
 spec:
   protocol: "http"

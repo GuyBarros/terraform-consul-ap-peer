@@ -4,9 +4,10 @@ metadata:
   name: terminating-gateway
 spec:
   services:
-    - name: example-docdb
-      sni: 'cluster1-docdb-instance-0.cwwnbexip9py.eu-west-2.docdb.amazonaws.com'
-      caFile: /consul/userconfig/documentdb-tls/rds-combined-ca-bundle.pem
+    - name: docdb-destination
+    #- name: example-docdb
+    #  sni: 'cluster1-docdb-cluster.cluster-cwwnbexip9py.eu-west-2.docdb.amazonaws.com'
+    #  caFile: /consul/userconfig/documentdb-tls/rds-combined-ca-bundle.pem
 ---
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceIntentions
@@ -18,3 +19,14 @@ spec:
   sources:
     - name: chatapp
       action: allow
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: docdb-destination
+spec:
+  destination:
+    name: docdb-destination
+  sources:
+    - name: chatapp
+      action: allow      

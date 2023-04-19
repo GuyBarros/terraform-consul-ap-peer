@@ -1,10 +1,12 @@
   apiVersion: consul.hashicorp.com/v1alpha1
   kind: ServiceDefaults
   metadata:
-    name: example-docdb
+    name: docdb-destination 
   spec:
     protocol: tcp
     destination:
       addresses:
         - "cluster1-docdb-cluster.cluster-cwwnbexip9py.eu-west-2.docdb.amazonaws.com"
+        - "cluster1-docdb-instance-0.cwwnbexip9py.eu-west-2.docdb.amazonaws.com"
+        - "10.0.21.129"
       port: 27017
