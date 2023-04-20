@@ -1,13 +1,13 @@
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceIntentions
 metadata:
-  name: service-c-v1-to-service-b
+  name: docdb-destination
 spec:
   destination:
-    name: service-c-v1
+    name: docdb-destination
 #   partition: tenant-1
   sources:
-  - name: service-b-v1
+  - name: test
     action: allow
-  - name: service-b-v2
-    action: allow  
+  - name: test-dark
+    action: allow

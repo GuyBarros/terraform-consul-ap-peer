@@ -60,7 +60,7 @@ resource "aws_security_group" "all_worker_mgmt" {
 
 # Security Group
 resource "aws_security_group" "docdb_sg" {
-  name_prefix = "example-sg"
+  name_prefix = "${var.cluster_name}-docdb-sg"
 
   ingress {
     from_port   = 0

@@ -46,7 +46,7 @@ spec:
       serviceAccountName: test
       containers:
       - name: test
-        image: guybarros/chat-app:0.0.6
+        image: guybarros/chat-app:0.0.10
         ports:
         - containerPort: 5000
         env:

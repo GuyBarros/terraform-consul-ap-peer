@@ -1,68 +1,72 @@
-# Service to expose todo
+# Service to expose test-dark
 apiVersion: v1
 kind: Service
 metadata:
-  name: todo
+  name: test-dark
 spec:
   selector:
-    app: todo
+    app: test-dark
   type: LoadBalancer
   ports:
   - name: http
     protocol: TCP
-    port: 8000
-    targetPort: 8000
+    port: 5000
+    targetPort: 5000
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: todo
+  name: test-dark
 ---
-# todo
+# test-dark
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: todo
+  name: test-dark
   labels:
-    app: todo
+    app: test-dark
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: todo
+      app: test-dark
   template:
     metadata:
       labels:
-        app: todo
-      annotations:
-        "consul.hashicorp.com/connect-inject": "true"
-        "consul.hashicorp.com/transparent-proxy": "false"
+        app: test-dark
+#      annotations:
+#        "consul.hashicorp.com/connect-inject": "true"
+#        "consul.hashicorp.com/transparent-proxy": "false"
 #       "consul.hashicorp.com/connect-service-upstreams": "service-c:9091"
-        "consul.hashicorp.com/connect-service-upstreams": "service-b-v1:9091"
+#        "consul.hashicorp.com/connect-service-upstreams": "service-b-v1:9091"
          #For the upstream line, this points to the #"<servicename>.<consul-namespace>.<partitionname>:<port#>" of the upstream service.
          #If its in the same partition and namespace, it can be omitted, ex:
 #        "consul.hashicorp.com/connect-service-upstreams": "service-c:9091"
     spec:
-      serviceAccountName: todo
+      serviceAccountName: test-dark
       containers:
-      - name: todo
-        image: guybarros/nest-todo-app:latest
+      - name: test-dark
+        image: guybarros/chat-app:dark-0.0.10
         ports:
-        - containerPort: 8000
+        - containerPort: 5000
         env:
         - name: "MONGODB_SERVER"
           # value: "127.0.0.1"
-          value: "localhost"              
+          value: "cluster1-docdb-instance-0.cwwnbexip9py.eu-west-2.docdb.amazonaws.com"              
         - name: "MONGODB_PORT"
-          # value: "27017"
+          value: "27017"
           # To connect to the upstream mongodb pointing to local upstream port
-          value: "9091"
+         # value: "9091"
+        - name: "MONGODB_USERNAME"
+          value: "docadmin" 
+        - name: "MONGODB_PASSWORD"
+          value: "password"   
         - name: "MONGODB_COL"
-          value: "todoapp"
+          value: "test-darkapp"
 ---
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceDefaults
 metadata:
-  name: todo
+  name: test-dark
 spec:
   protocol: "http"

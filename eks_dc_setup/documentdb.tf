@@ -1,13 +1,13 @@
 
 # DocDB Subnet Group
 resource "aws_docdb_subnet_group" "example_docdb_subnet_group" {
-  name       = "example-docdb-subnet-group"
+  name       = "${var.cluster_name}-docdb-subnet-group"
   subnet_ids = module.vpc.database_subnets
 }
 
 # DocDB Cluster
 resource "aws_docdb_cluster" "example_docdb_cluster" {
-  cluster_identifier   = "example-docdb-cluster"
+  cluster_identifier   = "${var.cluster_name}-docdb-cluster"
   engine       = "docdb"
   master_username = "docadmin"
   master_password = "password"
@@ -22,6 +22,6 @@ resource "aws_docdb_cluster_instance" "example_docdb_instance" {
   count                   = 1
   cluster_identifier      = aws_docdb_cluster.example_docdb_cluster.id
   instance_class          = "db.t3.medium"
-  identifier              = "example-docdb-instance-${count.index}"
+  identifier              = "${var.cluster_name}-docdb-instance-${count.index}"
   apply_immediately       = true
 }

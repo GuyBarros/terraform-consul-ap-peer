@@ -87,12 +87,12 @@ terminatingGateways:
   enabled: true
   gateways:
     - name: terminating-gateway
-      # extraVolumes:
-      # - type: secret
-      #   name: documentdb-tls
-      #   items: # optional items array
-      #     - key: key
-      #       path: rds-combined-ca-bundle.pem # secret will now mount to /consul/userconfig/my-secret/path
+      extraVolumes:
+      - type: secret
+        name: documentdb-tls
+        items: # optional items array
+          - key: caFile
+            path: rds-combined-ca-bundle.pem # secret will now mount to /consul/userconfig/documentdb-tls/path
 
   
 metrics:

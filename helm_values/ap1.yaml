@@ -36,9 +36,9 @@ global:
 
 externalServers:
   enabled: true
-  hosts: [ac49baf0921a7438289b4dc97e7afca6-511056230.eu-west-2.elb.amazonaws.com]
+  hosts: [a107b3d89b4304d64a4db58dc2e9838d-455137468.eu-west-2.elb.amazonaws.com]
   tlsServerName: server.dc1.consul
-  k8sAuthMethodHost: https://1AAFFBE4C0DD4D79D933F720A54C3288.gr7.eu-west-2.eks.amazonaws.com
+  k8sAuthMethodHost: https://D04FC77F4F680063611DEACA9A336B46.gr7.eu-west-2.eks.amazonaws.com
   
 controller: 
   enabled: true
