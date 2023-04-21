@@ -53,10 +53,8 @@ spec:
         - name: "LISTEN_ADDR"
           value: "0.0.0.0:9090"
         - name: "UPSTREAM_URIS"
+          #value: "http://localhost:9091"
           value: "http://service-b-v1.virtual.default.ns.default.ap.dc1.dc.consul:9091" 
-          #Set value above if TProxy is off
-#          value: "http://service-c.virtual.default.ns.tenant-1.ap.dc1.dc.consul:9091"
-          #Set value above if TProxy is on: <service>.virtual.<namespace>.ns.<partition>.ap.<datacenter>.dc.<domain>                   
         - name: "NAME"
           value: "service-a on default"
         - name: "MESSAGE"
