@@ -14,7 +14,7 @@ spec:
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceIntentions
 metadata:
-  name: igw-service-a
+  name: ingress-gateway
 spec:
   destination:
     name: service-a

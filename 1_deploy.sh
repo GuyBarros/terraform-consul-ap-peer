@@ -2,8 +2,6 @@
 #apply mesh by peer by default 
 kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/dc1_default_test/meshgw.yaml --context $dc1
 kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/dc2_default/meshgw.yaml --context $dc2
-kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/tenant-1/meshgw.yaml --context $ap1
-kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/tenant-2/meshgw.yaml --context $ap2
 
 
 #Deploy proxy defaults
@@ -46,8 +44,8 @@ kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/
 
 ######################################     Testing ###############################
 
-export CONSUL_HTTP_TOKEN=49cd16da-9fa2-bc48-2ccd-ccd3b3c2b8eb
-export CONSUL_HTTP_ADDR=https://a19ef9389f1954b529a65a657aa90d7e-483918336.eu-west-2.elb.amazonaws.com
+export CONSUL_HTTP_TOKEN=1ca900b5-cff9-7d32-3e4e-79253b3ed643
+export CONSUL_HTTP_ADDR=https://a5b31bb80f95b41cc9d17433b34c24a0-699327247.eu-west-2.elb.amazonaws.com
 curl --request PUT --header "X-Consul-Token: $CONSUL_HTTP_TOKEN" --data @docdb.json --insecure $CONSUL_HTTP_ADDR/v1/catalog/register
 
 curl --request PUT --header "X-Consul-Token: $CONSUL_HTTP_TOKEN" --data @dereg.json --insecure $CONSUL_HTTP_ADDR/v1/catalog/deregister
