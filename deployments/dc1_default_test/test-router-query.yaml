@@ -1,16 +1,14 @@
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceRouter
 metadata:
-  name: service-a
+  name: test
   namespace: default
 spec:
   routes:
     - match:
         http:
           queryParam:
-              - name: canary
+              - name: dark
                 exact: "true"
       destination:
-        service: service-b-v2
-        namespace: default
-        partition: tenant-2        
+        service: test-dark

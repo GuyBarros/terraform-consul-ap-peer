@@ -1,0 +1,13 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceResolver
+metadata:
+  name: service-a
+  namespace: default
+spec:
+  connectTimeout: 15s
+  failover:
+    '*':
+      targets:
+      - service: service-a
+        namespace: default
+        partition: tenant-1

@@ -34,11 +34,11 @@ spec:
     metadata:
       labels:
         app: service-a
-      annotations:
-        "consul.hashicorp.com/connect-inject": "true"
-        "consul.hashicorp.com/transparent-proxy": "false"
+#      annotations:
+#        "consul.hashicorp.com/connect-inject": "true"
+#        "consul.hashicorp.com/transparent-proxy": "false"
 #       "consul.hashicorp.com/connect-service-upstreams": "service-c:9091"
-        "consul.hashicorp.com/connect-service-upstreams": "service-b-v1:9091"
+#        "consul.hashicorp.com/connect-service-upstreams": "service-b-v1:9091"
          #For the upstream line, this points to the #"<servicename>.<consul-namespace>.<partitionname>:<port#>" of the upstream service.
          #If its in the same partition and namespace, it can be omitted, ex:
 #        "consul.hashicorp.com/connect-service-upstreams": "service-c:9091"
@@ -53,7 +53,7 @@ spec:
         - name: "LISTEN_ADDR"
           value: "0.0.0.0:9090"
         - name: "UPSTREAM_URIS"
-          value: "http://127.0.0.1:9091" 
+          value: "http://service-b-v1.virtual.default.ns.default.ap.dc1.dc.consul:9091" 
           #Set value above if TProxy is off
 #          value: "http://service-c.virtual.default.ns.tenant-1.ap.dc1.dc.consul:9091"
           #Set value above if TProxy is on: <service>.virtual.<namespace>.ns.<partition>.ap.<datacenter>.dc.<domain>                   

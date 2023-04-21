@@ -34,11 +34,11 @@ spec:
     metadata:
       labels:
         app: test
-#      annotations:
+      annotations:
 #        "consul.hashicorp.com/connect-inject": "true"
 #        "consul.hashicorp.com/transparent-proxy": "false"
 #       "consul.hashicorp.com/connect-service-upstreams": "service-c:9091"
-#        "consul.hashicorp.com/connect-service-upstreams": "service-b-v1:9091"
+        "consul.hashicorp.com/connect-service-upstreams": "docdb-destination:27017"
          #For the upstream line, this points to the #"<servicename>.<consul-namespace>.<partitionname>:<port#>" of the upstream service.
          #If its in the same partition and namespace, it can be omitted, ex:
 #        "consul.hashicorp.com/connect-service-upstreams": "service-c:9091"

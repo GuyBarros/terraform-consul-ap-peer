@@ -9,7 +9,11 @@ spec:
     - partition: tenant-2
   - name: mesh-gateway
     consumers:
-    - partition: default  
+    - partition: default
+  - name: service-a
+    namespace: default
+    consumers:
+    - partition: default
   - name: service-b-v1
     namespace: default
     consumers:
