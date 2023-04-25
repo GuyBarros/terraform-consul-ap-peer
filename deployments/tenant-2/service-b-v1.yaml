@@ -42,7 +42,7 @@ spec:
       serviceAccountName: service-b-v1
       containers:
       - name: service-b-v1
-        image: nicholasjackson/fake-service:v0.22.4
+        image: nicholasjackson/fake-service:v0.25.1
         ports:
         - containerPort: 9090
         env:
@@ -50,7 +50,7 @@ spec:
           value: "0.0.0.0:9090"
         - name: "UPSTREAM_URIS"
           #value: "http://service-c-v1.virtual.default.ns.tenant-2.ap.dc1.dc.consul:9091" 
-          value: "http://localhost:9091" 
+          value: "http://127.0.0.1:9091" 
         - name: "NAME"
           value: "service-b-v1 on tenant-2"
         - name: "MESSAGE"

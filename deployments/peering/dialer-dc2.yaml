@@ -1,10 +1,10 @@
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: PeeringDialer
 metadata:
-  name: dc1-tenant-2-dc2-tenant-3
+  name: dc1-tenant-2-dc2-default
 spec:
   peer:
     secret:
-      name: "peering-token-dc2-tenant-3"
+      name: "peering-token-dc2-default"
       key: "data"
       backend: "kubernetes"

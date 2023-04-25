@@ -1,10 +1,10 @@
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: PeeringAcceptor
 metadata:
-  name: dc2-default
+  name: ap2-dc2-default
 spec:
   peer:
     secret:
-      name: "peering-token-dc2"
+      name: "peering-token-dc2-default"
       key: "data"
       backend: "kubernetes"

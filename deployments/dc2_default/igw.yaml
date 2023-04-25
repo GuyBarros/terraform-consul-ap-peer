@@ -1,0 +1,45 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: IngressGateway
+metadata:
+  name: ingress-gateway
+ # namespace: consul
+spec:
+  listeners:
+    - port: 8080
+      protocol: http
+      services:
+        - name: service-a
+          hosts: ["*"]
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: igw-test
+spec:
+  destination:
+    name: test
+  sources:
+    - name: ingress-gateway
+      action: allow
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: igw-test-dark
+spec:
+  destination:
+    name: test-dark
+  sources:
+    - name: ingress-gateway
+      action: allow
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: igw-service-a
+spec:
+  destination:
+    name: service-a
+  sources:
+    - name: ingress-gateway
+      action: allow            

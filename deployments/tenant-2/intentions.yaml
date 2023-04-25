@@ -13,6 +13,9 @@ spec:
   - name: service-a
     action: allow
     partition: default
+  - name: ingress-gateway
+    action: allow
+    partition: tenant-1
 ---
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceIntentions
@@ -25,10 +28,16 @@ spec:
   sources:
   - name: service-a
     action: allow
+    partition: tenant-2
+  - name: service-a
+    action: allow
     partition: tenant-1
   - name: service-a
     action: allow
-    partition: default  
+    partition: default
+  - name: ingress-gateway
+    action: allow
+    partition: tenant-1    
 ---
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceIntentions
@@ -42,7 +51,9 @@ spec:
   - name: service-b-v1
     action: allow
   - name: service-b-v2
-    action: allow  
+    action: allow
+  - name: service-a
+    action: allow    
 ---
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceIntentions

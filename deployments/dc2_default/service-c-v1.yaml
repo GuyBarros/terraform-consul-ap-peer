@@ -60,7 +60,7 @@ spec:
             - containerPort: 9090
           env:
             - name: "NAME"
-              value: "service-c-v1 on tenant-2"
+              value: "service-c-v1 on default DC2"
             - name: "LISTEN_ADDR"
               value: "0.0.0.0:9090"
             - name: "TIMING_50_PERCENTILE"

@@ -8,27 +8,16 @@ spec:
     - port: 8080
       protocol: http
       services:
-        - name: service-b-v1
+        - name: service-a
           hosts: ["*"]
 ---
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceIntentions
 metadata:
-  name: igw-service-b-v1
+  name: igw-service-a
 spec:
   destination:
-    name: service-b-v1
+    name: service-a
   sources:
     - name: ingress-gateway
       action: allow
----
-apiVersion: consul.hashicorp.com/v1alpha1
-kind: ServiceIntentions
-metadata:
-  name: igw-service-b-v2
-spec:
-  destination:
-    name: service-b-v2
-  sources:
-    - name: ingress-gateway
-      action: allow      

@@ -54,7 +54,7 @@ spec:
           value: "0.0.0.0:9090"
         - name: "UPSTREAM_URIS"
           #value: "http://service-b-v1.virtual.default.ns.tenant-2.ap.dc1.dc.consul:9091" #Transparent Proxy
-          value: "http://localhost:9091"
+          value: "http://127.0.0.1:9091"
         - name: "NAME"
           value: "service-a  on tenant-1"
         - name: "MESSAGE"

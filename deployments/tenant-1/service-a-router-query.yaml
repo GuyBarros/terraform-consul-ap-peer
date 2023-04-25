@@ -14,3 +14,6 @@ spec:
         service: service-b-v2
         namespace: default
         partition: tenant-2        
+        requestTimeout: 10s
+        numRetries: 3
+        retryOnConnectFailure: true      

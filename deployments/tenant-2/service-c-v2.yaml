@@ -45,9 +45,9 @@ spec:
       labels:
         app: service-c-v2
         metrics: enabled
-#      annotations:
-#        consul.hashicorp.com/connect-inject: 'true'
-#        consul.hashicorp.com/transparent-proxy: 'false'
+      annotations:
+        consul.hashicorp.com/connect-inject: 'true'
+        consul.hashicorp.com/transparent-proxy: 'false'
         #consul.hashicorp.com/transparent-proxy-overwrite-probes: 'true'
     spec:
       serviceAccountName: service-c-v2

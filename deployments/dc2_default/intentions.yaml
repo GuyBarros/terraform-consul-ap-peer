@@ -1,0 +1,38 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: dc1-service-c-to-dc2-service-b
+spec:
+  destination:
+    name: service-c-v1
+  sources:
+   - name: service-b-v1
+     action: allow
+     peer: ap2-dc2-default
+   - name: service-a
+     action: allow  
+     peer: ap2-dc2-default
+   - name: service-c-v1
+     action: allow
+     peer: ap2-dc2-default  
+   - name: service-b-v1
+     action: allow
+   - name: service-a
+     action: allow
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: dc1-service-b-to-dc2-service-b
+spec:
+  destination:
+    name: service-b-v1
+  sources:
+   - name: service-b-v1
+     action: allow
+     peer: ap2-dc2-default
+   - name: service-a
+     action: allow
+     peer: ap2-dc2-default   
+   - name: service-a
+     action: allow     

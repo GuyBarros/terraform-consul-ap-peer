@@ -8,7 +8,8 @@ global:
   enterpriseLicense:
     secretName: consul-ent-license
     secretKey: key
- 
+  peering:
+    enabled: true 
   adminPartitions:
     enabled: true
     name: tenant-2
@@ -36,9 +37,9 @@ global:
 
 externalServers:
   enabled: true
-  hosts: [a57bda547d5d144bf9e706fcc04dc77e-888663621.eu-west-2.elb.amazonaws.com]
+  hosts: [accc554bafdf34324abde8ccb6b993fe-1036659963.eu-west-2.elb.amazonaws.com]
   tlsServerName: server.dc1.consul
-  k8sAuthMethodHost: https://B52AAA387E6DD9D4D5965571FD262874.sk1.eu-west-2.eks.amazonaws.com
+  k8sAuthMethodHost: https://46CE12DD26E22905C503ADAE2E905B5F.gr7.eu-west-2.eks.amazonaws.com
   
 controller: 
   enabled: true
