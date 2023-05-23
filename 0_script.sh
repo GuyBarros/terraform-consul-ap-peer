@@ -29,11 +29,11 @@ kubectl create ns consul --context $dc1
 #Create the consul ent license k8s secret
 kubectl create secret generic consul-ent-license --namespace consul --from-file=key=/Users/guybarros/Hashicorp/consul.hclic --context $dc1
 #create the PEM file secret for the terminating gateway
-#kubectl create secret generic documentdb-tls -n consul  --from-file=caFile=/Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/dc1_default_test/rds-combined-ca-bundle.pem --context $dc1
+#kubectl create secret generic documentdb-tls -n consul  --from-file=caFile=./deployments/dc1_default_test/rds-combined-ca-bundle.pem --context $dc1
 
 # Install Consul
-helm install consul hashicorp/consul --namespace consul --values /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/helm_values/dc1.yaml --wait --debug  --kube-context $dc1
-#helm upgrade consul hashicorp/consul --namespace consul --values /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/helm_values/dc1.yaml --wait --debug  --kube-context $dc1
+helm install consul hashicorp/consul --namespace consul --values ./helm_values/dc1.yaml --wait --debug  --kube-context $dc1
+#helm upgrade consul hashicorp/consul --namespace consul --values ./helm_values/dc1.yaml --wait --debug  --kube-context $dc1
 
 #Get the UI load balancer
 kubectl get svc -n consul --context $dc1
@@ -42,8 +42,8 @@ kubectl get svc -n consul --context $dc1
 kubectl get secret -n consul consul-bootstrap-acl-token -o jsonpath="{.data.token}" --context $dc1 | base64 --decode
 
 #apply mesh by peer by default 
-kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/dc1_default_test/ --context $dc1
-kubectl apply -f /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/deployments/dc1_default_test/todo.yaml --context $dc1
+kubectl apply -f ./deployments/dc1_default_test/ --context $dc1
+kubectl apply -f ./deployments/dc1_default_test/todo.yaml --context $dc1
 
 #AP1
 kubectl config use-context $ap1
@@ -62,8 +62,8 @@ kubectl cluster-info --context $ap1
 kubectl config use-context $ap1
 
 # Install Consul
-helm install consul hashicorp/consul --namespace consul --values /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/helm_values/ap1.yaml --wait --debug --kube-context $ap1
-#helm upgrade consul hashicorp/consul --namespace consul --values /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/helm_values/ap1.yaml --wait --debug --kube-context $ap1
+helm install consul hashicorp/consul --namespace consul --values ./helm_values/ap1.yaml --wait --debug --kube-context $ap1
+#helm upgrade consul hashicorp/consul --namespace consul --values ./helm_values/ap1.yaml --wait --debug --kube-context $ap1
 
 
 #AP2
@@ -84,8 +84,8 @@ kubectl config use-context $ap2
 
 # Install Consul
 # Install Consul
-helm install consul hashicorp/consul --namespace consul --values /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/helm_values/ap2.yaml --wait --debug --kube-context $ap2
-#helm upgrade consul hashicorp/consul --namespace consul --values /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/helm_values/ap2.yaml --wait --debug --kube-context $ap2
+helm install consul hashicorp/consul --namespace consul --values ./helm_values/ap2.yaml --wait --debug --kube-context $ap2
+#helm upgrade consul hashicorp/consul --namespace consul --values ./helm_values/ap2.yaml --wait --debug --kube-context $ap2
 
 
 #DC2
@@ -96,8 +96,8 @@ kubectl create ns consul --context $dc2
 kubectl create secret generic consul-ent-license --namespace consul --from-file=key=/Users/guybarros/Hashicorp/consul.hclic --context $dc2
 
 # Install Consul
-helm install consul hashicorp/consul --namespace consul --values /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/helm_values/dc2.yaml --wait --debug --kube-context $dc2
-#helm upgrade consul hashicorp/consul --namespace consul --values /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/helm_values/dc2.yaml --wait --debug --kube-context $dc2
+helm install consul hashicorp/consul --namespace consul --values ./helm_values/dc2.yaml --wait --debug --kube-context $dc2
+#helm upgrade consul hashicorp/consul --namespace consul --values ./helm_values/dc2.yaml --wait --debug --kube-context $dc2
 
 #Get the UI load balancer
 kubectl get svc -n consul --context $dc2
@@ -123,5 +123,5 @@ kubectl cluster-info --context $ap3
 kubectl config use-context $ap3
 
 # Install Consul
-helm install consul hashicorp/consul --namespace consul --values /Users/guybarros/GIT_ROOT/terraform-consul-ap-peer/helm_values/ap3.yaml --wait --debug --kube-context $ap3
+helm install consul hashicorp/consul --namespace consul --values ./helm_values/ap3.yaml --wait --debug --kube-context $ap3
 
