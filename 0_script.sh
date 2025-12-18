@@ -16,10 +16,10 @@ aws eks --region $(terraform output -raw region) update-kubeconfig --name $(terr
 kubectl config get-clusters
 
 # update these variables every deploy
-export dc1=arn:aws:eks:eu-west-2:958215610051:cluster/cluster1-eks-GVXQiaCh
-export ap1=arn:aws:eks:eu-west-2:958215610051:cluster/cluster2-eks-2b2KUDB2
-export ap2=arn:aws:eks:eu-west-2:958215610051:cluster/cluster3-eks-YZTNKrQs
-export dc2=arn:aws:eks:eu-west-2:958215610051:cluster/cluster4-eks-vwSLaBw6
+export dc1=arn:aws:eks:eu-west-2:958215610051:cluster/cluster1-7TW5OS1m
+export ap1=arn:aws:eks:eu-west-2:958215610051:cluster/cluster2-cgvpoMEO
+export ap2=arn:aws:eks:eu-west-2:958215610051:cluster/cluster3-9Ga4O1U6
+export dc2=arn:aws:eks:eu-west-2:958215610051:cluster/cluster4-yTtLUVq8
 export ap3=arn:aws:eks:eu-west-2:958215610051:cluster/cluster5-eks-XeBKytxF
 
 # DC1
