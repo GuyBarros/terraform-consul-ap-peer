@@ -33,6 +33,7 @@ kubectl create secret generic consul-ent-license --namespace consul --from-file=
 
 # Install Consul
 helm install consul hashicorp/consul --namespace consul --values ./helm_values/dc1.yaml --wait --debug  --kube-context $dc1
+consul-k8s install -namespace=consul -config-file=./helm_values/dc1.yaml -verbose -wait -context $dc1
 #helm upgrade consul hashicorp/consul --namespace consul --values ./helm_values/dc1.yaml --wait --debug  --kube-context $dc1
 
 #Get the UI load balancer
@@ -40,6 +41,7 @@ kubectl get svc -n consul --context $dc1
 
 # Get the bootstrap token, may need to change the name
 kubectl get secret -n consul consul-bootstrap-acl-token -o jsonpath="{.data.token}" --context $dc1 | base64 --decode
+kubectl get secret -n consul consul-bootstrap-acl-token -o jsonpath="{.data.token}" | base64 --decode
 
 #apply mesh by peer by default 
 kubectl apply -f ./deployments/dc1_default_test/ --context $dc1
@@ -58,11 +60,12 @@ kubectl get secret --namespace consul consul-ca-key -o yaml --context $dc1 | kub
 kubectl get secret --namespace consul consul-partitions-acl-token -o yaml --context $dc1 | kubectl --context $ap1  apply --namespace consul -f -
 kubectl get svc consul-expose-servers -n consul  --context $dc1
 kubectl cluster-info --context $ap1
-# update the helm files with the consul exporse servers and k8s control plane
+# update the helm files with the consul exporse servers and k8s control plane ( lines 40 & 42 in ap1.yaml)
 kubectl config use-context $ap1
 
 # Install Consul
 helm install consul hashicorp/consul --namespace consul --values ./helm_values/ap1.yaml --wait --debug --kube-context $ap1
+consul-k8s install -namespace=consul -config-file=./helm_values/dc2_client.yaml -verbose -wait -context $ap1
 #helm upgrade consul hashicorp/consul --namespace consul --values ./helm_values/ap1.yaml --wait --debug --kube-context $ap1
 
 

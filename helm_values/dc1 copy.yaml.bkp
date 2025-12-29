@@ -8,6 +8,7 @@ global:
   enterpriseLicense:
     secretName: consul-ent-license
     secretKey: key
+
   adminPartitions:
     enabled: true
     name: "default"
@@ -33,8 +34,6 @@ server:
   connect: true
   enabled: true
   exposeGossipAndRPCPorts: true
-  storage: 10Gi
-  storageClass: gp2                                                  
   metrics:
     enabled: true
     enableAgentMetrics: true
@@ -50,20 +49,27 @@ connectInject:
     consulDestinationNamespace: "default"   # Ignored when mirroringK8S is true
     mirroringK8S: true
 #   mirroringK8SPrefix: ""
-# Configures and installs the Consul API Gateway.
-  apiGateway:
-    manageExternalCRDs: true
-    # Configuration settings for the GatewayClass
-    managedGatewayClass:
-      # Defines the type of service created for gateways (e.g. LoadBalancer, ClusterIP, NodePort)
-      # LoadBalancer is primarily used for cloud deployments.
-      serviceType: LoadBalancer
   metrics:
     defaultEnabled: true
     defaultEnableMerging: false
     defaultPrometheusScrapePort: 20200
     defaultPrometheusScrapePath: "/metrics"
     defaultMergedMetricsPort: 20100  
+
+
+ingressGateways:
+  enabled: true
+  gateways:
+    - name: ingress-gateway
+      service:
+        type: LoadBalancer
+        ports:
+          - port: 8080
+      replicas: 1
+  wanAddress:
+    source: Service
+#       annotations: |
+#         'service.beta.kubernetes.io/aws-load-balancer-internal': "false"
 
 meshGateway:
   enabled: true
@@ -86,6 +92,7 @@ terminatingGateways:
       #     - key: caFile
       #       path: rds-combined-ca-bundle.pem # secret will now mount to /consul/userconfig/documentdb-tls/path
 
+  
 metrics:
   enabled: true
   provider: "prometheus"

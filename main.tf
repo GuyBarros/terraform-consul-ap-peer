@@ -1,11 +1,3 @@
-variable "instance_count" {
-  type    = string
-  default = "1"
-}
-variable "region" {
-  default     = "eu-west-2"
-  description = "AWS region"
-}
 
 # variable cluster_names{
 #   # default = ["cluster1","cluster2","cluster3","cluster4","cluster5","cluster6"]
@@ -20,12 +12,9 @@ module "cluster_1" {
   source = "./eks_dc_setup"
 
 
-  instance_count = var.instance_count
-  region         = var.region
-  cluster_name   = "cluster1"
-  # cluster_name   = var.cluster_names
-  # cluster_name   = each.key
-
+   aws_region         = var.region
+  cluster_name = "dominio1"
+  
 }
 
 module "cluster_2" {
@@ -34,12 +23,10 @@ module "cluster_2" {
   source = "./eks_dc_setup"
 
 
-  instance_count = var.instance_count
-  region         = var.region
-  cluster_name   = "cluster2"
-  # cluster_name   = var.cluster_names
-  # cluster_name   = each.key
-
+   aws_region         = var.region
+  cluster_name = "cluster2"
+  cluster_version = var.cluster_version
+  
 }
 
 # module "cluster_3" {
@@ -94,11 +81,24 @@ output "cluster_name_cluster1" {
   value       = module.cluster_1.cluster_name
 }
 
+output "vault_access_instructions_cluster1" {
+  description = "Instructions for accessing Vault with TLS"
+  value       = module.cluster_1.vault_access_instructions
+}
 
 output "cluster_name_cluster2" {
   description = "Kubernetes Cluster Name"
   value       = module.cluster_2.cluster_name
 }
+
+output "vault_access_instructions_cluster2" {
+  description = "Instructions for accessing Vault with TLS"
+  value       = module.cluster_2.vault_access_instructions
+}
+# output "cluster_name_cluster2" {
+#   description = "Kubernetes Cluster Name"
+#   value       = module.cluster_2.cluster_name
+# }
 
 
 # output "cluster_name_cluster3" {

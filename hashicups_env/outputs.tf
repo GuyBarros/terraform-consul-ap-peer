@@ -10,6 +10,17 @@ output "cluster_name" {
   value       = module.eks.cluster_name
 }
 
+################################################################################
+# Outputs
+################################################################################
+
+output "vpc" {
+  value = {
+    vpc_id         = module.vpc.vpc_id
+    vpc_cidr_block = module.vpc.vpc_cidr_block
+  }
+}
+
 # output "cluster_security_group_id" {
 #   description = "Security group ID attached to the EKS cluster"
 #   value       = module.eks.cluster_security_group_id
@@ -52,9 +63,11 @@ output "region" {
 # }
 
 output "vault_access_instructions" {
-  description = "Instructions for accessing the EKS cluster with kubectl"
+  description = "Instructions for accessing Vault with TLS"
   value       = <<-EOT
     1. Add the Vault Kubernetes cluster to your kubeconfig:
        aws eks update-kubeconfig --region ${var.aws_region} --name ${var.cluster_name}
+
+
   EOT
 }

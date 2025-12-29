@@ -54,7 +54,7 @@ spec:
           value: "0.0.0.0:9090"
         - name: "UPSTREAM_URIS"
           #value: "http://localhost:9091"
-          value: "http://service-b-v1.virtual.default.ns.default.ap.dc1.dc.consul:9091" 
+          value: "http://service-b-v1.virtual.default.ns.default.ap.dc1.dc.consul:9090" 
         - name: "NAME"
           value: "service-a on default"
         - name: "MESSAGE"

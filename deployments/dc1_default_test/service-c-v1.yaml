@@ -47,8 +47,8 @@ spec:
         metrics: enabled
       annotations:
         consul.hashicorp.com/connect-inject: 'true'
-        consul.hashicorp.com/transparent-proxy: 'false'
-        #consul.hashicorp.com/transparent-proxy-overwrite-probes: 'true'
+        consul.hashicorp.com/transparent-proxy: 'true'
+        consul.hashicorp.com/transparent-proxy-overwrite-probes: 'true'
     spec:
       serviceAccountName: service-c-v1
       automountServiceAccountToken: true

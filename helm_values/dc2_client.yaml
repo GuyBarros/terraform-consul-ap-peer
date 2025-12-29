@@ -1,0 +1,31 @@
+global:
+  name: consul
+  enabled: false
+  image: hashicorp/consul-enterprise:1.22.2-ent
+  logLevel: "debug"
+  enterpriseLicense:
+    secretName: consul-ent-license
+    secretKey: key
+    enableConsulNamespaces: true
+  tls:
+    enabled: true
+    caCert:
+      secretName: consul-ca-cert 
+      secretKey: tls.crt
+    caKey:
+      secretName: consul-ca-key 
+      secretKey: tls.key
+  acls:
+    manageSystemACLs: true
+    bootstrapToken:
+      secretName: consul-partitions-acl-token 
+      secretKey: token
+externalServers:
+  enabled: true
+  hosts: [a0b49be58fb6c46e1845904808f0cd9b-2022338624.eu-west-2.elb.amazonaws.com]
+  tlsServerName: server.dc1.consul
+  k8sAuthMethodHost: https://48944730DA6F9E62F1980389CDF84A97.gr7.eu-west-2.eks.amazonaws.com
+# envoyExtraArgs: "--log-level debug"
+  metrics:
+    defaultEnabled: true
+    defaultEnableMerging: true
