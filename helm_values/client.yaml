@@ -1,5 +1,5 @@
 global:
-  name: consul
+  name: client
   enabled: false
   image: hashicorp/consul-enterprise:1.22.2-ent
   logLevel: "debug"
@@ -25,12 +25,22 @@ connectInject:
   default: true                 
   transparentProxy:
     defaultEnabled: true         # Default      
+  apiGateway:
+    manageExternalCRDs: true
+    # Configuration settings for the GatewayClass
+    managedGatewayClass:
+      # Defines the type of service created for gateways (e.g. LoadBalancer, ClusterIP, NodePort)
+      # LoadBalancer is primarily used for cloud deployments.
+      serviceType: LoadBalancer  
 externalServers:
   enabled: true
-  hosts: [ae1a66817d85548d49612811d9a4317b-502352263.eu-west-2.elb.amazonaws.com]
+  hosts: [a5c05b5e5966e4b49880e14da385fe34-1935114291.eu-west-2.elb.amazonaws.com]
   tlsServerName: server.dc1.consul
-  k8sAuthMethodHost: https://48944730DA6F9E62F1980389CDF84A97.gr7.eu-west-2.eks.amazonaws.com
+  k8sAuthMethodHost: https://818BC96A5B7C07BDBBD71557DA247970.gr7.eu-west-2.eks.amazonaws.com
 # envoyExtraArgs: "--log-level debug"
+meshGateway:
+  enabled: true
+  replicas: 1
   metrics:
     defaultEnabled: true
     defaultEnableMerging: true

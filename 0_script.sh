@@ -41,11 +41,7 @@ kubectl get svc -n consul --context $dc1
 
 # Get the bootstrap token, may need to change the name
 kubectl get secret -n consul consul-bootstrap-acl-token -o jsonpath="{.data.token}" --context $dc1 | base64 --decode
-kubectl get secret -n consul consul-bootstrap-acl-token -o jsonpath="{.data.token}" | base64 --decode
 
-#apply mesh by peer by default 
-kubectl apply -f ./deployments/dc1_default_test/ --context $dc1
-kubectl apply -f ./deployments/dc1_default_test/todo.yaml --context $dc1
 
 #AP1
 kubectl config use-context $ap1
@@ -65,7 +61,7 @@ kubectl config use-context $ap1
 
 # Install Consul
 # helm install consul hashicorp/consul --namespace consul --values ./helm_values/ap1.yaml --wait --debug --kube-context $ap1
-helm install consul hashicorp/consul --namespace consul --values ./helm_values/dc2_client.yaml --wait --debug --kube-context $ap1
+helm install consul hashicorp/consul --namespace consul --values ./helm_values/client.yaml --wait --debug --kube-context $ap1
 # consul-k8s install -namespace=consul -config-file=./helm_values/wallace.yaml -verbose -wait -context $ap1
 #helm upgrade consul hashicorp/consul --namespace consul --values ./helm_values/dc2_client.yaml --wait --debug --kube-context $ap1
 

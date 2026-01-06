@@ -22,55 +22,40 @@ module "cluster_2" {
   # I'd have to remove all the provider from the modules, not today
   # for_each = toset(var.cluster_names)
   source = "./eks_dc_setup"
-
-
    aws_region         = var.region
   cluster_name = "cluster2"
   cluster_version = var.cluster_version
   
 }
 
-# module "cluster_3" {
-#   # I'd have to remove all the provider from the modules, not today
-#   # for_each = toset(var.cluster_names)
-#   source = "./eks_dc_setup"
-
-
-#   instance_count = var.instance_count
-#   region         = var.region
-#   cluster_name   = "cluster3"
-#   # cluster_name   = var.cluster_names
-#   # cluster_name   = each.key
-
-# }
+module "cluster_3" {
+  # I'd have to remove all the provider from the modules, not today
+  # for_each = toset(var.cluster_names)
+  source = "./eks_dc_setup"
+   aws_region         = var.region
+  cluster_name = "hashicups_backend"
+  cluster_version = var.cluster_version
+}
 
 # module "cluster_4" {
 #   # I'd have to remove all the provider from the modules, not today
 #   # for_each = toset(var.cluster_names)
 #   source = "./eks_dc_setup"
-
-
-#   instance_count = var.instance_count
-#   region         = var.region
-#   cluster_name   = "cluster4"
-#   # cluster_name   = var.cluster_names
-#   # cluster_name   = each.key
-
+#    aws_region         = var.region
+#   cluster_name = "hashicups_frontend"
+#   cluster_version = var.cluster_version
 # }
+
 
 # module "cluster_5" {
 #   # I'd have to remove all the provider from the modules, not today
 #   # for_each = toset(var.cluster_names)
 #   source = "./eks_dc_setup"
-
-
-#   instance_count = var.instance_count
-#   region         = var.region
-#   cluster_name   = "cluster5"
-#   # cluster_name   = var.cluster_names
-#   # cluster_name   = each.key
-
+#    aws_region         = var.region
+#   cluster_name = "hashicups_frontend"
+#   cluster_version = var.cluster_version
 # }
+
 
 output "region" {
   description = "AWS region"
@@ -96,26 +81,13 @@ output "vault_access_instructions_cluster2" {
   description = "Instructions for accessing Vault with TLS"
   value       = module.cluster_2.vault_access_instructions
 }
-# output "cluster_name_cluster2" {
-#   description = "Kubernetes Cluster Name"
-#   value       = module.cluster_2.cluster_name
-# }
 
+output "cluster_name_cluster3" {
+  description = "Kubernetes Cluster Name"
+  value       = module.cluster_3.cluster_name
+}
 
-# output "cluster_name_cluster3" {
-#   description = "Kubernetes Cluster Name"
-#   value       = module.cluster_3.cluster_name
-# }
-
-
-# output "cluster_name_cluster4" {
-#   description = "Kubernetes Cluster Name"
-#   value       = module.cluster_4.cluster_name
-# }
-
-
-# output "cluster_name_cluster5" {
-#   description = "Kubernetes Cluster Name"
-#   value       = module.cluster_5.cluster_name
-# }
-/////////////////////////
+output "vault_access_instructions_cluster3" {
+  description = "Instructions for accessing Vault with TLS"
+  value       = module.cluster_3.vault_access_instructions
+}
