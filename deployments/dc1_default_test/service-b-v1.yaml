@@ -34,8 +34,8 @@ spec:
     metadata:
       labels:
         app: service-b-v1
-#      annotations:
-#        "consul.hashicorp.com/connect-inject": "true"
+      annotations:
+        "consul.hashicorp.com/connect-inject": "true"
 #        "consul.hashicorp.com/transparent-proxy": "false"
 #       "consul.hashicorp.com/connect-service-upstreams": "service-c:9091"
 #        "consul.hashicorp.com/connect-service-upstreams": "service-c-v1:9091"

@@ -13,20 +13,15 @@ global:
     name: "default"
     # name above is the partition name for servers to reside 	
     service:
-
   enableConsulNamespaces: true
-
   peering:
     enabled: true
-
   tls:
     enabled: true
     enableAutoEncrypt: true
     verify: true
-
   acls:
    manageSystemACLs: true
-
 server:
   replicas: 3  # 1 for MiniKube or small environments
   bootstrapExpect: 3 # 1 for as above environment
@@ -40,7 +35,6 @@ server:
     enableAgentMetrics: true
     agentMetricsRetentionTime: '1m'
     enableGatewayMetrics: true
-
 connectInject:
   enabled: true
   default: true                 
@@ -64,7 +58,6 @@ connectInject:
     defaultPrometheusScrapePort: 20200
     defaultPrometheusScrapePath: "/metrics"
     defaultMergedMetricsPort: 20100  
-
 meshGateway:
   enabled: true
   replicas: 1
@@ -85,15 +78,12 @@ terminatingGateways:
       #   items: # optional items array
       #     - key: caFile
       #       path: rds-combined-ca-bundle.pem # secret will now mount to /consul/userconfig/documentdb-tls/path
-
 metrics:
   enabled: true
   provider: "prometheus"
   baseURL: http://prometheus-server
-
 controller:
   enabled: true
-
 ui:
   metrics:
     enabled: true
@@ -103,6 +93,5 @@ ui:
   service:
     enabled: true
     type: LoadBalancer
-
 prometheus:
  enabled: true

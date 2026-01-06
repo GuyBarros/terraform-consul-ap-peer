@@ -64,9 +64,10 @@ kubectl cluster-info --context $ap1
 kubectl config use-context $ap1
 
 # Install Consul
-helm install consul hashicorp/consul --namespace consul --values ./helm_values/ap1.yaml --wait --debug --kube-context $ap1
-consul-k8s install -namespace=consul -config-file=./helm_values/dc2_client.yaml -verbose -wait -context $ap1
-#helm upgrade consul hashicorp/consul --namespace consul --values ./helm_values/ap1.yaml --wait --debug --kube-context $ap1
+# helm install consul hashicorp/consul --namespace consul --values ./helm_values/ap1.yaml --wait --debug --kube-context $ap1
+helm install consul hashicorp/consul --namespace consul --values ./helm_values/dc2_client.yaml --wait --debug --kube-context $ap1
+# consul-k8s install -namespace=consul -config-file=./helm_values/wallace.yaml -verbose -wait -context $ap1
+#helm upgrade consul hashicorp/consul --namespace consul --values ./helm_values/dc2_client.yaml --wait --debug --kube-context $ap1
 
 
 #AP2

@@ -36,7 +36,7 @@ spec:
         app: service-a
       annotations: 
         "consul.hashicorp.com/connect-inject": "true"
-        "consul.hashicorp.com/transparent-proxy": "false"
+        "consul.hashicorp.com/transparent-proxy": "true"
 #        "consul.hashicorp.com/connect-service-upstreams": "service-c:9091"
         "consul.hashicorp.com/connect-service-upstreams": "service-b-v1.default.tenant-2:9091"
          #For the upstream line, this points to the #"<servicename>.<consul-namespace>.<partitionname>:<port#>" of the upstream service.
@@ -54,7 +54,7 @@ spec:
           value: "0.0.0.0:9090"
         - name: "UPSTREAM_URIS"
           #value: "http://service-b-v1.virtual.default.ns.tenant-2.ap.dc1.dc.consul:9091" #Transparent Proxy
-          value: "http://127.0.0.1:9091"
+          value: "http://service-b-v1:9090"
         - name: "NAME"
           value: "service-a  on tenant-1"
         - name: "MESSAGE"

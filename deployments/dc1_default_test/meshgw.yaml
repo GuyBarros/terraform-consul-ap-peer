@@ -5,5 +5,5 @@ metadata:
 spec:
   peering:
     peerThroughMeshGateways: true
-  transparentProxy:
-    meshDestinationsOnly: true
+#  transparentProxy:
+#    meshDestinationsOnly: true

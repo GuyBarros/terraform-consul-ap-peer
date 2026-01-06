@@ -1,7 +1,7 @@
 apiVersion: consul.hashicorp.com/v1alpha1
-kind: PeeringDialer
+kind: PeeringAcceptor
 metadata:
-  name: dc1
+  name: dc2
 spec:
   peer:
     secret:

@@ -15,6 +15,7 @@ module "cluster_1" {
    aws_region         = var.region
   cluster_name = "dominio1"
   
+  
 }
 
 module "cluster_2" {

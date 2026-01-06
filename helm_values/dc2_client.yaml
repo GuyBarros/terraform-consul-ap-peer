@@ -20,9 +20,14 @@ global:
     bootstrapToken:
       secretName: consul-partitions-acl-token 
       secretKey: token
+connectInject:
+  enabled: true
+  default: true                 
+  transparentProxy:
+    defaultEnabled: true         # Default      
 externalServers:
   enabled: true
-  hosts: [a0b49be58fb6c46e1845904808f0cd9b-2022338624.eu-west-2.elb.amazonaws.com]
+  hosts: [ae1a66817d85548d49612811d9a4317b-502352263.eu-west-2.elb.amazonaws.com]
   tlsServerName: server.dc1.consul
   k8sAuthMethodHost: https://48944730DA6F9E62F1980389CDF84A97.gr7.eu-west-2.eks.amazonaws.com
 # envoyExtraArgs: "--log-level debug"

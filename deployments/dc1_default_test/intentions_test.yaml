@@ -1,0 +1,21 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: service-b-v1
+spec:
+  destination:
+    name: service-b-v1
+  sources:
+  - name: service-a
+    action: allow
+---    
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: service-c-v1
+spec:
+  destination:
+    name: service-c-v1
+  sources:
+  - name: service-b-v1
+    action: allow
