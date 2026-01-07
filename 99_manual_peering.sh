@@ -52,10 +52,3 @@ helm delete consul  --namespace consul --wait --debug --kube-context $dc1
 kubectl delete ns consul --context $dc1
 
 
-
-kubectl apply -f  ./deployments/hashicups_full/consul-api-gateway.yaml --context $ap1
-kubectl apply -f  ./deployments/hashicups_full/routes.yaml --context $ap1
-kubectl apply -f  ./deployments/hashicups_full/nginx.yaml --context $ap1
-kubectl apply -f  ./deployments/hashicups_full/frontend.yaml --context $ap1
-kubectl apply -f  ./deployments/hashicups_full/public-api.yaml --context $ap1
-kubectl apply -f  ./deployments/hashicups_full/crd-frontend-intentions.yaml --context $ap1
