@@ -1,6 +1,6 @@
 
 # StorageClass for Vault (using EBS CSI)
-resource "kubernetes_storage_class" "ebs" {
+resource "kubernetes_storage_class_v1" "ebs" {
   metadata {
     name = "eks-ebs-sc"
   }

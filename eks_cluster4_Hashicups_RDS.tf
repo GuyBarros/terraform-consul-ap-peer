@@ -46,7 +46,7 @@ module "lambda_function" {
           DB_PASSWORD = aws_db_instance.database.password
   }
 
-  vpc_subnet_ids         = module.cluster_4.database_subnet_ids
+  #vpc_subnet_ids         = module.cluster_4.database_subnets.ids
   vpc_security_group_ids = [module.cluster_4.default_security_group_id]
   attach_network_policy  = true
 

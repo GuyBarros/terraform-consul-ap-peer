@@ -25,9 +25,9 @@ output "database_subnet_group_name" {
   value       = module.vpc.database_subnet_group_name
 }
 
-output "database_subnet_ids" {
+output "database_subnets" {
   description = "RDS Database Subnet IDs"
-  value       = module.vpc.database_subnets.ids
+  value       = module.vpc.database_subnets
 }
 
 
