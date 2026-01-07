@@ -88,18 +88,10 @@ module "eks" {
   }
 
   # Cluster add-ons
-  addons = {
-    coredns = {
-      most_recent = true
-      configuration_values = jsonencode({
-        computeType = "Fargate"
-      })
-    }
-    kube-proxy = {
-      most_recent = true
-    }
+addons = {
     vpc-cni = {
       most_recent = true
+      before_compute = true  # This ensures VPC-CNI is ready before nodes join
       configuration_values = jsonencode({
         env = {
           ENABLE_PREFIX_DELEGATION = "true"
@@ -108,12 +100,18 @@ module "eks" {
         }
       })
     }
+    kube-proxy = {
+      most_recent = true
+    }
+    coredns = {
+      most_recent = true
+    }
     aws-ebs-csi-driver = {
       most_recent              = true
       service_account_role_arn = module.ebs_csi_irsa.iam_role_arn
     }
   }
-
+  
   # Enable cluster creator admin access
   enable_cluster_creator_admin_permissions = true
 

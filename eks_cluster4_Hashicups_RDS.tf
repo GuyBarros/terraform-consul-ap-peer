@@ -50,6 +50,8 @@ module "lambda_function" {
   vpc_security_group_ids = [module.cluster_4.default_security_group_id]
   attach_network_policy  = true
 
+  timeout = 60
+  
   depends_on = [aws_db_instance.database]
 }
 
