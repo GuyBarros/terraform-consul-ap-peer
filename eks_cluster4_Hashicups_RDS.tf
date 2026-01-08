@@ -30,11 +30,12 @@ output "eks_access_instructions_cluster4" {
 
 module "lambda_function" {
   source = "terraform-aws-modules/lambda/aws"
+  version = "4.2.0"
 
   function_name = "product-db-init"
   description   = "HashiCups DB initialization"
   handler       = "product-db-init.lambda_handler"
-  runtime       = "python3.12"
+  runtime       = "python3.9"
 
   source_path = "./config/lambda-function"
 
@@ -46,12 +47,10 @@ module "lambda_function" {
           DB_PASSWORD = aws_db_instance.database.password
   }
 
-  #vpc_subnet_ids         = module.cluster_4.database_subnets.ids
+  vpc_subnet_ids         = module.cluster_4.private_subnets
   vpc_security_group_ids = [module.cluster_4.default_security_group_id]
   attach_network_policy  = true
-
-  timeout = 60
-  
+timeout = 60
   depends_on = [aws_db_instance.database]
 }
 
@@ -72,6 +71,7 @@ resource "aws_lambda_invocation" "database_init" {
 output "aws_lambda_result" {
   value = jsondecode(aws_lambda_invocation.database_init.result)
 }
+################################################################################
 
 data "aws_db_instance" "database" {
   db_instance_identifier = aws_db_instance.database.identifier
@@ -85,7 +85,7 @@ resource "aws_db_instance" "database" {
   identifier           = var.cluster4_name
   allocated_storage    = 6
   engine               = "postgres"
-  engine_version       = "17"
+  engine_version       = "14"
   instance_class       = "db.m5d.large"
   db_name              = "products"
   username             = "postgres"
@@ -106,7 +106,7 @@ resource "aws_db_instance" "database" {
 
 module "security_group" {
   source  = "terraform-aws-modules/security-group/aws"
-  # version = "~> 5.0"
+  version = "~> 5.0"
 
   name        = var.cluster4_name
   description = "PostgreSQL security group"

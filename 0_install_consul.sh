@@ -33,8 +33,8 @@ kubectl create secret generic consul-ent-license --namespace consul --from-file=
 #kubectl create secret generic documentdb-tls -n consul  --from-file=caFile=./deployments/dc1_default_test/rds-combined-ca-bundle.pem --context $dc1
 
 # Install Consul
-helm install consul hashicorp/consul --namespace consul --values ./helm_values/dc1.yaml --wait --debug  --kube-context $dc1
-consul-k8s install -namespace=consul -config-file=./helm_values/dc1.yaml -verbose -wait -context $dc1
+helm install consul hashicorp/consul --namespace consul --values ./helm_values/server.yaml --wait --debug  --kube-context $dc1
+#consul-k8s install -namespace=consul -config-file=./helm_values/dc1.yaml -verbose -wait -context $dc1
 #helm upgrade consul hashicorp/consul --namespace consul --values ./helm_values/dc1.yaml --wait --debug  --kube-context $dc1
 
 #Get the UI load balancer
