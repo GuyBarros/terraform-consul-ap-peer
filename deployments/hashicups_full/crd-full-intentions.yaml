@@ -1,15 +1,39 @@
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceIntentions
 metadata:
-  name: api-gateway
+  name: nginx-teal
+  namespace: default
+# Allow traffic from nginx to frontend
+spec:
+  destination:
+    name: nginx-teal
+    namespace: default
+  sources:
+    - name: api-gateway
+      namespace: default
+      action: allow
+    - name: api-gateway
+      namespace: default
+      samenessGroup: hashicups
+      action: allow    
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: nginx
   namespace: default
 # Allow traffic from nginx to frontend
 spec:
   destination:
     name: nginx
+    namespace: default
   sources:
     - name: api-gateway
-      action: allow
+      action: allow    
+    - name: api-gateway
+      namespace: default
+      samenessGroup: hashicups
+      action: allow   
 ---
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceIntentions
@@ -20,9 +44,21 @@ metadata:
 spec:
   destination:
     name: frontend
+    namespace: default
   sources:
+    - name: nginx-teal
+      action: allow
+      namespace: default
     - name: nginx
       action: allow
+      namespace: default
+    - name: nginx-teal
+      action: allow
+      namespace: default
+      samenessGroup: hashicups  
+    - name: nginx
+      action: allow
+      samenessGroup: hashicups
 ---
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceIntentions
@@ -31,18 +67,27 @@ metadata:
   namespace: default
 spec:
   sources:
+    - name: nginx-teal
+      namespace: default
+      action: allow
     - name: nginx
       action: allow
       namespace: default
+    - name: nginx-teal
+      namespace: default
+      action: allow  
+      samenessGroup: hashicups
+    - name: nginx
+      action: allow
+      samenessGroup: hashicups
   destination:
     name: public-api
     namespace: default
 ---
-
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceIntentions
 metadata:
-  name: products-api
+  name: product-api
   namespace: default
 spec:
   sources:
@@ -50,7 +95,7 @@ spec:
       action: allow
       namespace: default
   destination:
-    name: products-api
+    name: product-api
     namespace: default
 ---
 apiVersion: consul.hashicorp.com/v1alpha1
@@ -66,7 +111,6 @@ spec:
   destination:
     name: payments
     namespace: default
-
 ---
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceIntentions
@@ -77,11 +121,27 @@ metadata:
   namespace: default
 spec:
   sources:
-    - name: products-api
+    - name: product-api
       action: allow
       namespace: default
   destination:
     name: postgres
+    namespace: default
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  # The metadata name is the destination service name and
+  # matches the spec.destination.name value.
+  name: product-api-db
+  namespace: default
+spec:
+  sources:
+    - name: product-api
+      action: allow
+      namespace: default
+  destination:
+    name: product-api-db
     namespace: default
 ---
 

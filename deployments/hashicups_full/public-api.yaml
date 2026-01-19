@@ -25,8 +25,9 @@ apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceDefaults
 metadata:
   name: public-api
+  namespace: default
 spec:
-  protocol: 'http'
+  protocol: "http"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -58,13 +59,6 @@ spec:
             - name: BIND_ADDRESS
               value: ":8080"
             - name: PRODUCT_API_URI
-              value: "http://products-api:9090"
+              value: "http://product-api:9090"
             - name: PAYMENT_API_URI
               value: "http://payments:1800"
-          resources:
-            limits:
-              cpu: 100m
-              memory: 100M
-            requests: 
-              cpu: 100m
-              memory: 100M

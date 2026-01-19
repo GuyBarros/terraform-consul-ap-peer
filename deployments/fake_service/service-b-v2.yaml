@@ -1,0 +1,66 @@
+# Service to expose service-b-v2
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-b-v2
+spec:
+  selector:
+    app: service-b-v2
+  type: LoadBalancer
+  ports:
+  - name: http
+    protocol: TCP
+    port: 9090
+    targetPort: 9090
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: service-b-v2
+---
+# service-b-v2
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-b-v2
+  labels:
+    app: service-b-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-b-v2
+  template:
+    metadata:
+      labels:
+        app: service-b-v2
+      annotations:
+        "consul.hashicorp.com/connect-inject": "true"
+        "consul.hashicorp.com/transparent-proxy": "false"
+        "consul.hashicorp.com/connect-service-upstreams": "service-c-v2.default.tenant-2:9091"
+    spec:
+      serviceAccountName: service-b-v2
+      containers:
+      - name: service-b-v2
+        image: nicholasjackson/fake-service:v0.25.1
+        ports:
+        - containerPort: 9090
+        env:
+        - name: "LISTEN_ADDR"
+          value: "0.0.0.0:9090"
+        - name: "UPSTREAM_URIS"
+          #value: "http://service-c-v2.virtual.default.ns.tenant-2.ap.dc1.dc.consul:9091" 
+          value: "http://127.0.0.1:9091" 
+        - name: "NAME"
+          value: "service-b-v2 on tenant-2"
+        - name: "MESSAGE"
+          value: "Hello World"
+        - name: "HTTP_CLIENT_KEEP_ALIVES"
+          value: "false"
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceDefaults
+metadata:
+  name: service-b-v2
+spec:
+  protocol: "http"

@@ -1,0 +1,27 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceResolver
+metadata:
+  name: virtual-nginx-teal
+spec:
+  redirect:
+    service: nginx
+    peer: backend
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: virtual-nginx-teal
+spec:
+ destination:
+   name: virtual-nginx-teal
+ sources:
+   - name: api-gateway
+     action: allow
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: MeshService
+metadata:
+  name: mesh-nginx-teal
+spec:
+  name: mesh-nginx-teal
+  peer: backend

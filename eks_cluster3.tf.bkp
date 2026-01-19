@@ -6,7 +6,7 @@ variable "cluster3_name" {
 module "cluster_3" {
   # I'd have to remove all the provider from the modules, not today
   # for_each = toset(var.cluster_names)
-  source = "./eks_dc_setup"
+  source = "./modules/eks_dc_setup"
    aws_region         = var.region
   cluster_name = "hashicups_backend"
   cluster_version = var.cluster_version

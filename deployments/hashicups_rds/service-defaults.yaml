@@ -4,3 +4,7 @@ metadata:
   name: managed-aws-rds
 spec:
   protocol: tcp
+  destination:
+    addresses:
+     - "backend.cwwnbexip9py.eu-west-2.rds.amazonaws.com"
+    port: 5432

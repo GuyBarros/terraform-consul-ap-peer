@@ -8,7 +8,7 @@ metadata:
   namespace: default
 spec:
   sources:
-    - name: products-api
+    - name: product-api
       action: allow
       namespace: default
   destination:
@@ -18,7 +18,7 @@ spec:
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceIntentions
 metadata:
-  name: products-api
+  name: product-api
   namespace: default
 spec:
   sources:
@@ -27,7 +27,7 @@ spec:
       namespace: default
       peer: dc1
   destination:
-    name: products-api
+    name: product-api
     namespace: default
 ---
 apiVersion: consul.hashicorp.com/v1alpha1

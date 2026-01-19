@@ -1,0 +1,133 @@
+variable "cluster4_name" {
+  description = "Name of the EKS cluster 4"
+  type        = string
+  default     = "backend"
+}
+
+module "cluster_4" {
+  # I'd have to remove all the provider from the modules, not today
+  # for_each = toset(var.cluster_names)
+  source = "./modules/eks_dc_setup"
+   aws_region         = var.region
+  cluster_name = var.cluster4_name
+  cluster_version = var.cluster_version
+}
+
+
+output "cluster_name_cluster4" {
+  description = "Kubernetes Cluster Name"
+  value       = module.cluster_4.cluster_name
+}
+
+output "eks_access_instructions_cluster4" {
+  description = "Instructions for accessing EKS"
+  value       = module.cluster_4.eks_access_instructions
+}
+
+################################################################################
+# AWS Lambda definition
+################################################################################
+
+module "lambda_function" {
+  source = "terraform-aws-modules/lambda/aws"
+  version = "4.2.0"
+
+  function_name = "product-db-init"
+  description   = "HashiCups DB initialization"
+  handler       = "product-db-init.lambda_handler"
+  runtime       = "python3.9"
+
+  source_path = "./config/lambda-function"
+
+  environment_variables = {
+          DB_HOST     = aws_db_instance.database.address
+          DB_PORT     = 5432
+          DB_NAME     = aws_db_instance.database.db_name
+          DB_USER     = aws_db_instance.database.username
+          DB_PASSWORD = aws_db_instance.database.password
+  }
+
+  vpc_subnet_ids         = module.cluster_4.private_subnets
+  vpc_security_group_ids = [module.cluster_4.default_security_group_id]
+  attach_network_policy  = true
+timeout = 60
+  depends_on = [aws_db_instance.database]
+}
+
+################################################################################
+# AWS Lambda invokation
+################################################################################
+
+resource "aws_lambda_invocation" "database_init" {
+  function_name = module.lambda_function.lambda_function_name
+
+  input = jsonencode({
+    key = "db-init"
+  })
+
+  depends_on = [module.lambda_function] 
+}
+
+output "aws_lambda_result" {
+  value = jsondecode(aws_lambda_invocation.database_init.result)
+}
+################################################################################
+
+data "aws_db_instance" "database" {
+  db_instance_identifier = aws_db_instance.database.identifier
+}
+
+################################################################################
+# AWS RDS
+################################################################################
+
+resource "aws_db_instance" "database" {
+  identifier           = var.cluster4_name
+  allocated_storage    = 6
+  engine               = "postgres"
+  engine_version       = "14"
+  instance_class       = "db.m5d.large"
+  db_name              = "products"
+  username             = "postgres"
+  password             = "password"
+  port                 = 5432
+  skip_final_snapshot  = true
+  multi_az             = false
+
+  db_subnet_group_name   = module.cluster_4.database_subnet_group_name
+  vpc_security_group_ids = [module.security_group.security_group_id]
+
+  depends_on = [module.cluster_4, module.security_group]
+}
+
+################################################################################
+# Supporting Resources
+################################################################################
+
+module "security_group" {
+  source  = "terraform-aws-modules/security-group/aws"
+  version = "~> 5.0"
+
+  name        = var.cluster4_name
+  description = "PostgreSQL security group"
+  vpc_id      = module.cluster_4.vpc_id
+
+  # ingress only - no egress traffic defined
+  ingress_with_cidr_blocks = [
+    {
+      from_port   = 5432
+      to_port     = 5432
+      protocol    = "tcp"
+      description = "PostgreSQL access from within VPC"
+      cidr_blocks = module.cluster_4.vpc_cidr_block
+    },
+  ]
+}
+
+################################################################################
+# Outputs
+################################################################################
+
+output "aws_rds_endpoint" {
+  value = data.aws_db_instance.database.address
+}

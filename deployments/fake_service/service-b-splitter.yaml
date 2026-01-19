@@ -1,0 +1,32 @@
+apiVersion: consul.hashicorp.com/v1alpha1         
+kind: ServiceSplitter                             
+metadata:                                         
+  name: service-b-v1
+  namespace: default                                 
+spec:
+  splits:                                         
+    - weight: 50                                  
+      service: service-b-v1                            
+      namespace: default                 
+      partition: tenant-2                
+    - weight: 50
+      service: service-b-v2
+      namespace: default
+      partition: tenant-2
+
+# ---
+# apiVersion: consul.hashicorp.com/v1alpha1         
+# kind: ServiceSplitter                             
+# metadata:                                         
+#   name: service-c-v1
+#   namespace: default                                 
+# spec:
+#   splits:                                         
+#     - weight: 50                                  
+#       service: service-c-v1                            
+#       namespace: default                 
+#       partition: tenant-2                
+#     - weight: 50
+#       service: service-c-v2
+#       namespace: default
+#       partition: tenant-2

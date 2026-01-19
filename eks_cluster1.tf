@@ -9,10 +9,10 @@ module "cluster_1" {
   # for_each = toset(var.cluster_names)
   source = "./modules/eks_dc_setup"
 
-   aws_region         = var.region
-  cluster_name = var.cluster1_name
+  aws_region      = var.region
+  cluster_name    = var.cluster1_name
   cluster_version = var.cluster_version
-   
+
 }
 
 

@@ -34,14 +34,16 @@ kubectl create secret generic consul-ent-license --namespace consul --from-file=
 
 # Install Consul
 helm install consul hashicorp/consul --namespace consul --values ./helm_values/server.yaml --wait --debug  --kube-context $dc1
+#consul-k8s upgrade -namespace=consul -config-file=./helm_values/server.yaml -verbose -wait -context $dc1
 #consul-k8s install -namespace=consul -config-file=./helm_values/dc1.yaml -verbose -wait -context $dc1
 #helm upgrade consul hashicorp/consul --namespace consul --values ./helm_values/dc1.yaml --wait --debug  --kube-context $dc1
 
 #Get the UI load balancer
-kubectl get svc -n consul --context $dc1
+CONSUL_HTTP_ADDR="https://"$(kubectl get svc consul-ui  -n consul -o json --context $dc1 | jq -r '.status.loadBalancer.ingress[0].hostname') && echo $CONSUL_HTTP_ADDR
 
 # Get the bootstrap token, may need to change the name
-kubectl get secret -n consul consul-bootstrap-acl-token -o jsonpath="{.data.token}" --context $dc1 | base64 --decode
+DC1_CONSUL_HTTP_TOKEN=$(kubectl get secret -n consul consul-bootstrap-acl-token -o jsonpath="{.data.token}" --context $dc1 | base64 --decode) && echo $DC1_CONSUL_HTTP_TOKEN
+
 
 ####################################################
 #Consul Client via Dataplane on DC1 setup, repeat as necessary
@@ -62,7 +64,8 @@ kubectl cluster-info --context $ap1
 kubectl config use-context $ap1
 
 # Install Consul
-helm install consul hashicorp/consul --namespace consul --values ./helm_values/client.yaml --wait --debug --kube-context $ap1
+ helm install consul hashicorp/consul --namespace consul --values ./helm_values/client.yaml --wait --debug --kube-context $ap1
+# helm install consul hashicorp/consul --namespace consul --values ./helm_values/adminPartition.yaml --wait --debug --kube-context $ap1
 ####################################################
 #Admin Partition on DC1 setup, repeat as necessary
 ####################################################
@@ -99,11 +102,10 @@ helm install consul hashicorp/consul --namespace consul --values ./helm_values/d
 #helm upgrade consul hashicorp/consul --namespace consul --values ./helm_values/dc2.yaml --wait --debug --kube-context $dc2
 
 #Get the UI load balancer
-kubectl get svc -n consul --context $dc2
+DC2_CONSUL_HTTP_ADDR="https://"$(kubectl get svc consul-ui  -n consul -o json --context $dc2 | jq -r '.status.loadBalancer.ingress[0].hostname') && echo $DC2_CONSUL_HTTP_ADDR
 
 # Get the bootstrap token, may need to change the name
-kubectl get secret -n consul consul-bootstrap-acl-token -o jsonpath="{.data.token}" --context $dc2 | base64 --decode
-
+DC2_CONSUL_HTTP_TOKEN=$(kubectl get secret -n consul consul-bootstrap-acl-token -o jsonpath="{.data.token}" --context $dc2 | base64 --decode) && echo $DC2_CONSUL_HTTP_TOKEN
 
 ####################################################
 #Admin Partition on DC2 setup, repeat as necessary

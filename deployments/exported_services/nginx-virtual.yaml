@@ -1,0 +1,21 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceResolver
+metadata:
+  name: nginx-resolver
+spec:
+  connectTimeout: 15s
+  redirect:
+    peer: 'backend'
+    service: 'nginx'
+    namespace: 'default'
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+ name: virtual-nginx
+spec:
+ destination:
+   name: virtual-nginx
+ sources:
+   - name: test-service
+     action: allow

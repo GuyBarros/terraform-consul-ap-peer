@@ -1,0 +1,38 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceResolver
+metadata:
+  name: nginx-resolver
+  namespace: default
+spec:
+  defaultSubset: v1
+  subsets:
+    v1:
+      filter: 'Service.Meta.version == 1'
+    v2:
+      filter: 'Service.Meta.version == 2'
+---
+
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceSplitter
+metadata:
+  name: backend
+  namespace: sit
+spec:
+  splits:
+    - weight: 50
+      serviceSubset: v1
+      namespace: sit
+    - weight: 50
+      serviceSubset: v2
+      namespace: dev
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceSplitter
+metadata:
+  name: backend
+  namespace: dev
+spec:
+  splits:
+    - weight: 100
+      serviceSubset: v2
+      namespace: dev

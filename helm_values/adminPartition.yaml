@@ -1,7 +1,7 @@
 global:
-  name: consul
+  name: frontend
   enabled: false
-  image: hashicorp/consul-enterprise:1.22.2-ent
+  image: hashicorp/consul-enterprise:1.21.8-ent
   logLevel: "debug"
   enterpriseLicense:
     secretName: consul-ent-license
@@ -10,7 +10,7 @@ global:
     enabled: true
   adminPartitions:
     enabled: true
-    name: tenant-1
+    name: servicos-a2
   enableConsulNamespaces: true
   tls:
     enabled: true
@@ -20,26 +20,21 @@ global:
     caKey:
       secretName: consul-ca-key 
       secretKey: tls.key
-
   acls:
     manageSystemACLs: true
     bootstrapToken:
       secretName: consul-partitions-acl-token 
       secretKey: token
-
 # client:
 #  enabled: false
 #  grpc: true
-
 externalServers:
   enabled: true
-  hosts: [a281f0ad7c77f42f985d09ca9b7df7d7-500773016.eu-west-2.elb.amazonaws.com]
+  hosts: [acd82b0b3d1364795bc31b7b362e65e5-1633282915.eu-west-2.elb.amazonaws.com]
   tlsServerName: server.dc1.consul
-  k8sAuthMethodHost: https://5F79FE6B9814ACF503385BF68065D11B.gr7.eu-west-2.eks.amazonaws.com
-  
+  k8sAuthMethodHost: https://0F4931A4A882E7D2727E6B4CC6040D6F.gr7.eu-west-2.eks.amazonaws.com
 controller: 
   enabled: true
-
 connectInject:
   enabled: true
   default: true                
@@ -47,26 +42,22 @@ connectInject:
     defaultEnabled: true         # Default
     logLevel: "debug"
 # envoyExtraArgs: "--log-level debug"
-  metrics:
-    defaultEnabled: true
-    defaultEnableMerging: true
-
-ingressGateways:
-  enabled: true
-  gateways:
-    - name: ingress-gateway
-      service:
-        type: 'LoadBalancer'
-  wanAddress:
-    source: Service
-#       annotations: |
-#         'service.beta.kubernetes.io/aws-load-balancer-internal': "false"
-
+metrics:
+  defaultEnabled: true
+  defaultEnableMerging: true
+  apiGateway:
+    manageExternalCRDs: true
+    # Configuration settings for the GatewayClass
+    managedGatewayClass:
+      # Defines the type of service created for gateways (e.g. LoadBalancer, ClusterIP, NodePort)
+      # LoadBalancer is primarily used for cloud deployments.
+      serviceType: LoadBalancer  
 terminatingGateways:
   enabled: true
 meshGateway:
   enabled: true
-  replicas: 1
+  
+#  replicas: 1
 # service:
 #   enabled: true
 #   type: 'LoadBalancer'

@@ -1,7 +1,7 @@
 global:
   name: consul
   enabled: false
-  image: hashicorp/consul-enterprise:1.22.2-ent
+  image: hashicorp/consul-enterprise:1.21.8-ent
   logLevel: "debug"
   enterpriseLicense:
     secretName: consul-ent-license
@@ -10,7 +10,7 @@ global:
     enabled: true 
   adminPartitions:
     enabled: true
-    name: tenant-3
+    name: tenant-a2
 
   enableConsulNamespaces: true
 
@@ -36,7 +36,7 @@ global:
 externalServers:
   enabled: true
   hosts: [a37536c2ac7324803a04ba6c3e1c3665-2020796093.eu-west-2.elb.amazonaws.com]
-  tlsServerName: server.dc2.consul
+  tlsServerName: server.dc1.consul
   k8sAuthMethodHost: https://E81E1FD1FDB21A5CE681EF221C0CA37F.gr7.eu-west-2.eks.amazonaws.com
   
 controller: 

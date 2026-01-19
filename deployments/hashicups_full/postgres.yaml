@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 ---
 apiVersion: v1
 kind: Service
@@ -6,27 +9,25 @@ metadata:
   labels:
     app: postgres
 spec:
-  type: ClusterIP
   ports:
     - port: 5432
       targetPort: 5432
+      protocol: TCP
   selector:
     app: postgres
-
----
-apiVersion: consul.hashicorp.com/v1alpha1
-kind: ServiceDefaults
-metadata:
-  name: postgres
-spec:
-  protocol: 'tcp'
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: postgres
 automountServiceAccountToken: true
-
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceDefaults
+metadata:
+  name: postgres
+spec:
+  protocol: "tcp"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -44,14 +45,15 @@ spec:
         service: postgres
         app: postgres
       annotations:
-        prometheus.io/scrape: 'true'
-        prometheus.io/port: '9102'
-        consul.hashicorp.com/connect-inject: 'true'
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9102"
+        consul.hashicorp.com/connect-inject: "true"
     spec:
       serviceAccountName: postgres
       containers:
         - name: postgres
-          image: hashicorpdemoapp/product-api-db:v0.0.22
+          image: hashicorpdemoapp/product-api-db:v0.0.21
+          imagePullPolicy: Always
           ports:
             - containerPort: 5432
           env:
@@ -61,11 +63,9 @@ spec:
               value: postgres
             - name: POSTGRES_PASSWORD
               value: password
-          # only listen on loopback so only access is via connect proxy
-          args: ['-c', 'listen_addresses=127.0.0.1']
           volumeMounts:
-            - mountPath: '/var/lib/postgresql/data'
-              name: 'pgdata'
+            - mountPath: "/var/lib/postgresql/data"
+              name: "pgdata"
       volumes:
         - name: pgdata
           emptyDir: {}

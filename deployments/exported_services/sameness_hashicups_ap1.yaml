@@ -1,0 +1,12 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ExportedServices
+metadata:
+  name: servicos-a2
+spec:
+  services:
+    - name: product-api
+      consumers:
+        - samenessGroup: hashicups
+    - name: public-api
+      consumers:
+        - samenessGroup: hashicups

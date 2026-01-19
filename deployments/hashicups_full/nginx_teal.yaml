@@ -2,22 +2,22 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx
+  name: nginx-teal
   namespace: default
   labels:
-    app: nginx
+    app: nginx-teal
 spec:
   type: ClusterIP
   ports:
     - port: 80
       targetPort: 80
   selector:
-    app: nginx
+    app: nginx-teal
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nginx-config
+  name: nginx-teal-config
   namespace: default
 data:
   nginx.conf: |
@@ -82,14 +82,14 @@ data:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: nginx
+  name: nginx-teal
   namespace: default
 automountServiceAccountToken: true
 ---
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceDefaults
 metadata:
-  name: nginx
+  name: nginx-teal
   namespace: default
 spec:
   protocol: "http"
@@ -97,30 +97,30 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
+  name: nginx-teal
   namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: nginx
-      app: nginx
+      service: nginx-teal
+      app: nginx-teal
   template:
     metadata:
       labels:
-        service: nginx
-        app: nginx
+        service: nginx-teal
+        app: nginx-teal
       annotations:
         consul.hashicorp.com/connect-inject: "true"
     spec:
-      serviceAccountName: nginx
+      serviceAccountName: nginx-teal
       containers:
-        - name: nginx
+        - name: nginx-teal
           image: nginx:stable-alpine
           ports:
             - containerPort: 80
           volumeMounts:
-            - name: nginx-config
+            - name: nginx-teal-config
               mountPath: /etc/nginx/nginx.conf
               subPath: nginx.conf
           resources:
@@ -131,9 +131,9 @@ spec:
               cpu: 100m
               memory: 200M
       volumes:
-        - name: nginx-config
+        - name: nginx-teal-config
           configMap:
-            name: nginx-config
+            name: nginx-teal-config
             items:
               - key: nginx.conf
                 path: nginx.conf

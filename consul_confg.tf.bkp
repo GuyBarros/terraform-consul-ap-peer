@@ -1,0 +1,13 @@
+module "consul_config" {
+  source = "./modules/consul_config"
+
+  consul_datacenter = var.consul_datacenter
+  consul_domain     = var.consul_domain
+
+  vault_address   = var.vault_address
+  vault_namespace = var.vault_namespace
+  vault_token     = module.vault_ca.vault_token_consul_service_mesh_ca
+
+  pki_root_path = module.vault_ca.pki_root_path
+  pki_int_path  = module.vault_ca.pki_int_path
+}

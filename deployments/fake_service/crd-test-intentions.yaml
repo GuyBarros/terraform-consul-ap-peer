@@ -1,0 +1,14 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: service-c-v1
+  namespace: default
+spec:
+  sources:
+    - name: service-b-v1
+      action: allow
+      namespace: default
+      peer: dc1
+  destination:
+    name: service-c-v1
+    namespace: default

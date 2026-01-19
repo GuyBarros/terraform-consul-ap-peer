@@ -1,0 +1,16 @@
+{
+  "Provider": "vault",
+  "Config": {
+      "Address": "https://do-not-delete-ever-v2-public-vault-cf6a1d76.5773df81.z1.hashicorp.cloud:8200",
+      "Namespace": "admin/ibm",
+      "Token": "hvs.CAESIA5os5woO9pae6pqzCC2O4_lXJvdc6T_opVvqHTttyAUGikKImh2cy5NbG1qQmFmempmR3R5MGpySGFBQjZweUguZUpiYVoQlIqVGA",
+      "RootPKIPath": "connect_root",
+      "IntermediatePKIPath": "connect_dc2_inter",
+      "LeafCertTTL": "72h",
+      "RotationPeriod": "2160h",
+      "IntermediateCertTTL": "8760h",
+      "PrivateKeyType": "rsa",
+      "PrivateKeyBits": 2048
+  },
+  "ForceWithoutCrossSigning": false
+}

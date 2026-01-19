@@ -1,0 +1,59 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceResolver
+metadata:
+    name: frontend
+spec:
+    redirect:
+        service: frontend
+        peer: dc1
+        namespace: default
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceResolver
+metadata:
+    name: public-api
+spec:
+    redirect:
+        service: public-api
+        peer: dc1
+        namespace: default
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+    name: frontend
+    namespace: default
+# Allow traffic from nginx to frontend
+spec:
+    destination:
+        name: frontend
+    sources:
+        - name: nginx
+          action: allow
+
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+    name: public-api
+    namespace: default
+# Allow traffic from nginx to frontend
+spec:
+    destination:
+        name: public-api
+    sources:
+        - name: nginx
+          action: allow        
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: api-gateway
+  namespace: default
+# Allow traffic from nginx to frontend
+spec:
+  destination:
+    name: nginx
+  sources:
+    - name: api-gateway
+      action: allow          
