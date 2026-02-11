@@ -1,0 +1,68 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: service-c-v1
+  namespace: default
+spec:
+  sources:
+    - name: service-b-v1
+      action: allow
+    - name: service-b-v2
+      action: allow  
+  destination:
+    name: service-c-v1
+    namespace: default
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: service-c-v2
+  namespace: default
+spec:
+  sources:
+    - name: service-b-v1
+      action: allow
+    - name: service-b-v2
+      action: allow  
+  destination:
+    name: service-c-v2
+    namespace: default
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: service-b-v1
+  namespace: default
+spec:
+  sources:
+    - name: service-a
+      action: allow  
+  destination:
+    name: service-b-v1
+    namespace: default
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: service-b-v2
+  namespace: default
+spec:
+  sources:
+    - name: service-a
+      action: allow
+  destination:
+    name: service-b-v2
+    namespace: default
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: service-a
+  namespace: default
+spec:
+  sources:
+    - name: fake-service-gateway
+      action: allow
+  destination:
+    name: service-a
+    namespace: default    

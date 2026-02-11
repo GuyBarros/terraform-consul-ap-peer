@@ -8,11 +8,9 @@ spec:
     - weight: 50                                  
       service: service-b-v1                            
       namespace: default                 
-      partition: tenant-2                
     - weight: 50
       service: service-b-v2
       namespace: default
-      partition: tenant-2
 
 # ---
 # apiVersion: consul.hashicorp.com/v1alpha1         

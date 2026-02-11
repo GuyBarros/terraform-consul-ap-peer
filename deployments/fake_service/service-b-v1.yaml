@@ -35,7 +35,8 @@ spec:
       labels:
         app: service-b-v1
       annotations:
-        "consul.hashicorp.com/connect-inject": "true"
+        consul.hashicorp.com/service-meta-version: "2"
+        consul.hashicorp.com/service-tags: "v2"
     spec:
       serviceAccountName: service-b-v1
       containers:
@@ -47,10 +48,9 @@ spec:
         - name: "LISTEN_ADDR"
           value: "0.0.0.0:9090"
         - name: "UPSTREAM_URIS"
-          #value: "http://service-c-v1.virtual.default.ns.tenant-2.ap.dc1.dc.consul:9091" 
-          value: "http://service-c-v1.virtual.dc2.consul:9090" 
+          value: "http://service-c-v1:9090" 
         - name: "NAME"
-          value: "service-b-v1 on dc2"
+          value: "service-b-v1"
         - name: "MESSAGE"
           value: "Hello World"
         - name: "HTTP_CLIENT_KEEP_ALIVES"

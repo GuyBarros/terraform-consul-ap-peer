@@ -3,7 +3,7 @@ apiVersion: gateway.networking.k8s.io/v1beta1
 # The Gateway is the main infrastructure resource that links API gateway components.
 kind: Gateway
 metadata:
-  name: api-gateway
+  name: fake-service-gateway
   namespace: default
 spec:
   gatewayClassName: consul
@@ -11,7 +11,7 @@ spec:
   listeners:
     # Defines the listener protocol (HTTP, HTTPS, or TCP)
   - protocol: HTTP
-    port: 80
+    port: 9090
     name: http
     allowedRoutes:
       namespaces:

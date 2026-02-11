@@ -1,0 +1,32 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceResolver
+metadata:
+  name: nginx
+spec:
+  defaultSubset: v1
+  redirect:
+    service: nginx
+    peer: backend
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceSplitter
+metadata:
+  name: nginx
+spec:
+  splits:
+    - weight: 100
+      serviceSubset: v1
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: nginx
+spec:
+ destination:
+   name: nginx
+ sources:
+   - name: nginx
+     action: allow
+     peer: backend
+   - name: api-gateway
+     action: allow

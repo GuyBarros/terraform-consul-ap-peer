@@ -3,7 +3,7 @@
   "Config": {
       "Address": "https://do-not-delete-ever-v2-public-vault-cf6a1d76.5773df81.z1.hashicorp.cloud:8200",
       "Namespace": "admin/ibm",
-      "Token": "<Your-Vault-token>",
+      "Token": "hvs.CAESID1dfceoe2HHeCnOi3QjrrsxyDUFMh4cniM6tSMvl9jSGikKImh2cy54alZ6d25lc05ZRFpwelFxbHA1cDhWMnAuZUpiYVoQ1p6tGA",
       "RootPKIPath": "connect_root",
       "IntermediatePKIPath": "connect_dc1_inter",
       "LeafCertTTL": "72h",

@@ -9,6 +9,14 @@ spec:
     name: nginx-teal
     namespace: default
   sources:
+    - name: mesh-nginx
+      namespace: default
+      action: allow
+      peer: server
+    - name: api-gateway
+      namespace: default
+      action: allow
+      peer: server
     - name: api-gateway
       namespace: default
       action: allow
@@ -28,8 +36,15 @@ spec:
     name: nginx
     namespace: default
   sources:
+    - name: mesh-nginx
+      namespace: default
+      action: allow
+      peer: server  
     - name: api-gateway
-      action: allow    
+      action: allow
+    - name: api-gateway
+      action: allow
+      peer: server      
     - name: api-gateway
       namespace: default
       samenessGroup: hashicups

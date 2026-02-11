@@ -2,13 +2,13 @@
   apiVersion: consul.hashicorp.com/v1alpha1
   kind: ServiceDefaults
   metadata:
-    name: documentdb
+    name: managed-aws-rds
   spec:
     protocol: tcp
     destination:
       addresses:
-        - "docdb-test.cluster-ck4qnrbriwav.eu-west-1.docdb.amazonaws.com"
-      port: 27017
+        - "backend.cwwnbexip9py.eu-west-2.rds.amazonaws.com"
+      port: 5432
 
 ---
 apiVersion: consul.hashicorp.com/v1alpha1
@@ -17,7 +17,7 @@ metadata:
   name: terminating-gateway
 spec:
   services:
-    - name: documentdb
+    - name: managed-aws-rds
       #caFile: "/etc/ssl/certs/ca-certificates.crt"
       #sni: "docdb-test.cluster-ck4qnrbriwav.eu-west-1.docdb.amazonaws.com"
 
@@ -25,10 +25,10 @@ spec:
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceIntentions
 metadata:
-  name: documentdb
+  name: managed-aws-rds
 spec:
   destination:
-    name: documentdb
+    name: managed-aws-rds
   sources:
-    - name: frontend
+    - name: product-api
       action: allow

@@ -30,9 +30,9 @@ global:
 #  grpc: true
 externalServers:
   enabled: true
-  hosts: [acd82b0b3d1364795bc31b7b362e65e5-1633282915.eu-west-2.elb.amazonaws.com]
+  hosts: [a1f75a51abcd4416e8a9203e01d61d3f-2119995519.eu-west-2.elb.amazonaws.com]
   tlsServerName: server.dc1.consul
-  k8sAuthMethodHost: https://0F4931A4A882E7D2727E6B4CC6040D6F.gr7.eu-west-2.eks.amazonaws.com
+  k8sAuthMethodHost: https://ADE6F919E3D501F3BC2CA2078CA697D7.gr7.eu-west-2.eks.amazonaws.com
 controller: 
   enabled: true
 connectInject:

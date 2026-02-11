@@ -1,0 +1,11 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceResolver
+metadata:
+  name: nginx
+spec:
+  defaultSubset: black
+  subsets:
+    black:
+      filter: 'Service.ID contains "nginx" and not Service.ID contains "nginx-teal"'
+    teal:
+      filter: 'Service.ID contains "nginx-teal" '

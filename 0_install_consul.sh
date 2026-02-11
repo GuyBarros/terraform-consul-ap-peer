@@ -39,33 +39,15 @@ helm install consul hashicorp/consul --namespace consul --values ./helm_values/s
 #helm upgrade consul hashicorp/consul --namespace consul --values ./helm_values/dc1.yaml --wait --debug  --kube-context $dc1
 
 #Get the UI load balancer
-CONSUL_HTTP_ADDR="https://"$(kubectl get svc consul-ui  -n consul -o json --context $dc1 | jq -r '.status.loadBalancer.ingress[0].hostname') && echo $CONSUL_HTTP_ADDR
+DC1_CONSUL_HTTP_ADDR="https://"$(kubectl get svc consul-ui  -n consul -o json --context $dc1 | jq -r '.status.loadBalancer.ingress[0].hostname') && echo $DC1_CONSUL_HTTP_ADDR
 
 # Get the bootstrap token, may need to change the name
 DC1_CONSUL_HTTP_TOKEN=$(kubectl get secret -n consul consul-bootstrap-acl-token -o jsonpath="{.data.token}" --context $dc1 | base64 --decode) && echo $DC1_CONSUL_HTTP_TOKEN
 
+#Install Grafana via Helm
+helm install -f ./deployments/observability/grafana-values.yaml grafana grafana/grafana --wait --kube-context $dc1
 
-####################################################
-#Consul Client via Dataplane on DC1 setup, repeat as necessary
-####################################################
-kubectl config use-context $ap1
-# Create the k8s namespace
-kubectl create ns consul --context $ap1
-#Create the consul ent license k8s secret
-kubectl create secret generic consul-ent-license --namespace consul --from-file=key=/Users/guybarros/Hashicorp/consul.hclic --context $ap1
 
-#Get the info from DC1 and apply it to AP1
-kubectl get secret --namespace consul consul-ca-cert -o yaml --context $dc1 | kubectl --context $ap1 apply --namespace consul -f -
-kubectl get secret --namespace consul consul-ca-key -o yaml --context $dc1 | kubectl --context $ap1  apply --namespace consul -f -
-kubectl get secret --namespace consul consul-partitions-acl-token -o yaml --context $dc1 | kubectl --context $ap1  apply --namespace consul -f -
-kubectl get svc consul-expose-servers -n consul  --context $dc1
-kubectl cluster-info --context $ap1
-# update the helm files with the consul exporse servers and k8s control plane ( lines 40 & 42 in ap1.yaml)
-kubectl config use-context $ap1
-
-# Install Consul
- helm install consul hashicorp/consul --namespace consul --values ./helm_values/client.yaml --wait --debug --kube-context $ap1
-# helm install consul hashicorp/consul --namespace consul --values ./helm_values/adminPartition.yaml --wait --debug --kube-context $ap1
 ####################################################
 #Admin Partition on DC1 setup, repeat as necessary
 ####################################################
@@ -85,8 +67,7 @@ kubectl cluster-info --context $ap1
 kubectl config use-context $ap1
 
 # Install Consul
-helm install consul hashicorp/consul --namespace consul --values ./helm_values/client.yaml --wait --debug --kube-context $ap1
-
+helm install consul hashicorp/consul --namespace consul --values ./helm_values/adminPartition.yaml --wait --debug --kube-context $ap1
 ####################################################
 # Consul Server DC2 setup
 ####################################################
@@ -106,6 +87,9 @@ DC2_CONSUL_HTTP_ADDR="https://"$(kubectl get svc consul-ui  -n consul -o json --
 
 # Get the bootstrap token, may need to change the name
 DC2_CONSUL_HTTP_TOKEN=$(kubectl get secret -n consul consul-bootstrap-acl-token -o jsonpath="{.data.token}" --context $dc2 | base64 --decode) && echo $DC2_CONSUL_HTTP_TOKEN
+
+#Install Grafana via Helm
+helm install -f ./deployments/observability/grafana-values.yaml grafana grafana/grafana --wait --kube-context $dc2
 
 ####################################################
 #Admin Partition on DC2 setup, repeat as necessary
@@ -129,3 +113,28 @@ kubectl config use-context $ap3
 # Install Consul
 helm install consul hashicorp/consul --namespace consul --values ./helm_values/ap3.yaml --wait --debug --kube-context $ap3
 
+########
+### Left overs from testing
+######
+
+# ####################################################
+# #Consul Client via Dataplane on DC1 setup, repeat as necessary
+# ####################################################
+# kubectl config use-context $ap1
+# # Create the k8s namespace
+# kubectl create ns consul --context $ap1
+# #Create the consul ent license k8s secret
+# kubectl create secret generic consul-ent-license --namespace consul --from-file=key=/Users/guybarros/Hashicorp/consul.hclic --context $ap1
+
+# #Get the info from DC1 and apply it to AP1
+# kubectl get secret --namespace consul consul-ca-cert -o yaml --context $dc1 | kubectl --context $ap1 apply --namespace consul -f -
+# kubectl get secret --namespace consul consul-ca-key -o yaml --context $dc1 | kubectl --context $ap1  apply --namespace consul -f -
+# kubectl get secret --namespace consul consul-partitions-acl-token -o yaml --context $dc1 | kubectl --context $ap1  apply --namespace consul -f -
+# kubectl get svc consul-expose-servers -n consul  --context $dc1
+# kubectl cluster-info --context $ap1
+# # update the helm files with the consul exporse servers and k8s control plane ( lines 40 & 42 in ap1.yaml)
+# kubectl config use-context $ap1
+
+# # Install Consul
+#  helm install consul hashicorp/consul --namespace consul --values ./helm_values/client.yaml --wait --debug --kube-context $ap1
+# # helm install consul hashicorp/consul --namespace consul --values ./helm_values/adminPartition.yaml --wait --debug --kube-context $ap1

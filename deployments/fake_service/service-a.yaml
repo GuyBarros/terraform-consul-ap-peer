@@ -35,13 +35,8 @@ spec:
       labels:
         app: service-a
       annotations: 
-        "consul.hashicorp.com/connect-inject": "true"
-#        "consul.hashicorp.com/transparent-proxy": "false"
-#        "consul.hashicorp.com/connect-service-upstreams": "service-c:9091"
-#        "consul.hashicorp.com/connect-service-upstreams": "service-b-v1:9091"
-         #For the upstream line, this points to the #"<servicename>.<consul-namespace>.<partitionname>:<port#>" of the upstream service.
-         #If its in the same partition and namespace, it can be omitted, ex:
-#        "consul.hashicorp.com/connect-service-upstreams": "service-c:9091"
+        consul.hashicorp.com/service-meta-version: "1"
+        consul.hashicorp.com/service-tags: "v1"
     spec:
       serviceAccountName: service-a
       containers:
@@ -54,7 +49,7 @@ spec:
           value: "0.0.0.0:9090"
         - name: "UPSTREAM_URIS"
           #value: "http://service-b-v1.virtual.default.ns.tenant-2.ap.dc1.dc.consul:9091" #Transparent Proxy
-          value: "http://service-b-v1.virtual.default.dc1.consul:9090"
+          value: "http://service-b-v1:9090"
         - name: "NAME"
           value: "service-a on dc1"
         - name: "MESSAGE"

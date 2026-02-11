@@ -33,3 +33,7 @@ kubectl apply -f  ./deployments/hashicups_full/payments.yaml --context $dc1
 kubectl apply -f  ./deployments/hashicups_full/products-api.yaml --context $dc1
 kubectl apply -f  ./deployments/hashicups_full/product-api-db.yaml --context $dc1
 kubectl apply -f  ./deployments/hashicups_full/crd-full-intentions.yaml --context $dc1
+
+kubectl delete -f  ./deployments/hashicups_full/frontend-v2.yaml --context $dc1
+
+kubectl delete -f  ./deployments/hashicups_full/products-api.yaml --context $dc1

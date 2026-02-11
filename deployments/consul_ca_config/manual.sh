@@ -15,9 +15,8 @@ vault policy write dc1 ./deployments/consul_ca_config/dc1.hcl
 vault policy write ap1 ./deployments/consul_ca_config/ap1.hcl
 vault policy write dc2 ./deployments/consul_ca_config/dc2.hcl
 
-DC1_VAULT_TOKEN=$(vault token create -policy=dc1 -policy=default -format=json | jq -r .auth.client_token)
-AP1_VAULT_TOKEN=$(vault token create -policy=ap1 -policy=default -format=json | jq -r .auth.client_token)
-DC2_VAULT_TOKEN=$(vault token create -policy=dc2 -policy=default -format=json | jq -r .auth.client_token)
+AP1_VAULT_TOKEN=$(vault token create -orphan -renewable  -explicit-max-ttl=8761h -policy=ap1 -policy=default -format=json | jq -r .auth.client_token)
+DC2_VAULT_TOKEN=$(vault token create -orphan -renewable  -max-ttl=8761h -policy=dc2 -policy=default -format=json | jq -r .auth.client_token)
 
 #configure DC1 CA Config in Consul
 #check existing config
@@ -51,6 +50,7 @@ ${DC2_CONSUL_HTTP_ADDR}/v1/connect/ca/configuration
 #check update config
 curl -k --header "X-Consul-Token: ${DC2_CONSUL_HTTP_TOKEN}" \
     ${DC2_CONSUL_HTTP_ADDR}/v1/connect/ca/configuration
+    
 # consul connect ca set-config -config-file ./deployments/consul_ca_config/dc1-ca-config.json
 # consul connect ca set-config -config-file ./deployments/consul_ca_config/ap1-ca-config.json
 # consul connect ca set-config -config-file ./deployments/consul_ca_config/dc2-ca-config.json

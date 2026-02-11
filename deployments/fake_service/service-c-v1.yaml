@@ -46,9 +46,8 @@ spec:
         app: service-c-v1
         metrics: enabled
       annotations:
-        consul.hashicorp.com/connect-inject: 'true'
-        consul.hashicorp.com/transparent-proxy: 'false'
-        #consul.hashicorp.com/transparent-proxy-overwrite-probes: 'true'
+        consul.hashicorp.com/service-meta-version: "1"
+        consul.hashicorp.com/service-tags: "v1"
     spec:
       serviceAccountName: service-c-v1
       automountServiceAccountToken: true
